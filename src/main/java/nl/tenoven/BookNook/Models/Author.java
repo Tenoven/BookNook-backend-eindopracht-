@@ -4,26 +4,29 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-@Table(name = "Authors")
+@Table(name = "authors")
 @Entity
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    private String Name;
-    private String DateOfBirth;
-    private String Description;
+    private long id;
+    private String name;
+    private String dateOfBirth;
+    private String description;
+    private boolean validated;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> books;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Image photo;
 
     public Author() {
     }
 
-    public Author(long Id, String Name, String dateOfBirth, String description) {
-        this.Id = Id;
-        this.Name = Name;
-        DateOfBirth = dateOfBirth;
-        Description = description;
-    }
 }

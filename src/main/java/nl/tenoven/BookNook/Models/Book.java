@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
+
 @Getter
 @Setter
 @Table(name = "Books")
@@ -12,16 +15,22 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    private String Title;
-    private String Author;
-    private String Description;
-    private short AmountOfPages;
-    private float Price;
-//  private Comments
-    private String Genre;
-//  private Cover (Picture)
-    private boolean Validated;
+    private long id;
+    private String title;
+
+    @ManyToOne
+    private Author author;
+    private String description;
+    private short amountOfPages;
+    private float price;
+
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> review;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Image cover;
+
+    private boolean validated;
 
     public Book() {
     }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Table(name = "Revieuws")
@@ -12,26 +14,20 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    private String User;
-    private String Comments;
-    private String Book;
+    private long id;
+
+    @Column(name = "reviewer")
+    private String reviewer;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    private String book;
     private String Text;
     private byte Score;
     private boolean Validated;
 
     public Review() {
     }
-
-    public Review(long Id, String User, String Comments, String Book, String Text, byte Score) {
-        this.Id = Id;
-        this.User = User;
-        this.Comments = Comments;
-        this.Book = Book;
-        this.Text = Text;
-        this.Score = Score;
-    }
-
-
 
 }

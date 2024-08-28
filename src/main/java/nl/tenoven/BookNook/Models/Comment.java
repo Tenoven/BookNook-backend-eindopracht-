@@ -12,20 +12,22 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    private byte Rating;
-    private String User;
-    private String Message;
-    private String DatePosted;
+    private long id;
+    private String commenter;
+    private String message;
+    private String datePosted;
+
+    @ManyToOne
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     public Comment() {
     }
 
-    public Comment(long id, byte rating, String user, String message, String datePosted) {
-        Id = id;
-        Rating = rating;
-        User = user;
-        Message = message;
-        DatePosted = datePosted;
+    public Comment(long id, String user, String message, String datePosted) {
+        this.id = id;
+        this.commenter = user;
+        this.message = message;
+        this.datePosted = datePosted;
     }
 }

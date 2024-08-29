@@ -2,14 +2,15 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Models.Image;
+import nl.tenoven.BookNook.Repositories.ImageRepository;
 
 import java.util.List;
 
 public class ImageService {
-    private Imagerepository imagerepository;
+    private ImageRepository imageRepository;
 
     public ImageService(ImageRepository imageRepository) {
-        this.imagerepository = imageRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<Image> getImages() {

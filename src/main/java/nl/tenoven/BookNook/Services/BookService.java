@@ -1,8 +1,8 @@
 package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
-import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
+import nl.tenoven.BookNook.Repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class BookService {
 
-    private Bookrepository bookrepository;
+    private BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
-        this.bookrepository = bookRepository;
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getBooks() {

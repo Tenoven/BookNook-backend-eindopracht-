@@ -2,6 +2,8 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Models.Comment;
+
+import nl.tenoven.BookNook.Repositories.CommentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,10 +11,10 @@ import java.util.List;
 @Service
 public class CommentService {
 
-        private Commentrepository commentrepository;
+        private CommentRepository commentRepository;
 
         public CommentService(CommentRepository commentRepository) {
-            this.commentrepository = commentRepository;
+            this.commentRepository = commentRepository;
         }
 
         public List<Comment> getComments() {

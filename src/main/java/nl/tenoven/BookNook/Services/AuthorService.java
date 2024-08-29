@@ -2,6 +2,7 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Models.Author;
+import nl.tenoven.BookNook.Repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class AuthorService {
         return author;
     }
 
-    public AuthorDto addAuthor(Author author) {
+    public AuthorDto addAuthor(Author newAuthor) {
         Author savedAuthor = authorRepository.save(newAuthor);
         return toAuthorDto(savedAuthor);
     }

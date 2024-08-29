@@ -25,7 +25,6 @@ public class Review {
     private String book;
     private String Text;
     private byte Score;
-    private boolean Validated;
 
     public Review() {
     }

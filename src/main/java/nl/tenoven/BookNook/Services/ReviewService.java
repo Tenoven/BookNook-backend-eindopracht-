@@ -33,13 +33,11 @@ public class ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
 
-        review.setTitle(updatedReview.getTitle());
-        review.setAuthor(updatedReview.getAuthor());
-        review.setDescription(updatedReview.getDescription());
-        review.setPrice(updatedReview.getPrice());
-        review.setCover(updatedReview.getCover());
-        review.setAmountOfPages(updatedReview.getAmountOfPages());
-        review.setValidated(false);
+        review.setReviewer(updatedReview.getReviewer());
+        review.setComments(updatedReview.getComments());
+        review.setBook(updatedReview.getBook());
+        review.setText(updatedReview.getText());
+        review.setScore(updatedReview.getScore());
 
         Review savedReview= reviewRepository.save(review);
         return toReviewDto(savedReview);
@@ -55,13 +53,11 @@ public class ReviewService {
     public static ReviewDto toReviewDto(Review review) {
         ReviewDto dto = new ReviewDto();
         dto.setId(review.getId());
-        dto.setTitle(review.getTitle());
-        dto.setAuthor(review.getAuthor());
-        dto.setDescription(review.getDescription());
-        dto.setPrice(review.getPrice());
-        dto.setCover(review.getCover());
-        dto.setAmountOfPages(review.getAmountOfPages());
-        dto.setValidated(false);
+        dto.setReviewer(review.getReviewer());
+        dto.setComments(review.getComments());
+        dto.setBook(review.getBook());
+        dto.setText(review.getText());
+        dto.setScore(review.getScore());
 
         return dto;
     }
@@ -69,13 +65,11 @@ public class ReviewService {
     public Review toReview(ReviewDto reviewDto) {
         Review review = new Review();
         review.setId(reviewDto.getId());
-        review.setTitle(reviewDto.getTitle());
-        review.setAuthor(reviewDto.getAuthor());
-        review.setDescription(reviewDto.getDescription());
-        review.setPrice(reviewDto.getPrice());
-        review.setCover(reviewDto.getCover());
-        review.setAmountOfPages(reviewDto.getAmountOfPages());
-        review.setValidated(false);
+        review.setReviewer(reviewDto.getReviewer());
+        review.setComments(reviewDto.getComments());
+        review.setBook(reviewDto.getBook());
+        review.setText(reviewDto.getText());
+        review.setScore(reviewDto.getScore());
         return review;
     }
 

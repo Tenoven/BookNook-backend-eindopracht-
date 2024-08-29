@@ -34,13 +34,10 @@ public class CommentService {
             Comment comment = commentRepository.findById(id)
                     .orElseThrow(()-> new EntityNotFoundException("Comment" + id + "not found"));
 
-            comment.setTitle(updatedComment.getTitle());
-            comment.setAuthor(updatedComment.getAuthor());
-            comment.setDescription(updatedComment.getDescription());
-            comment.setPrice(updatedComment.getPrice());
-            comment.setCover(updatedComment.getCover());
-            comment.setAmountOfPages(updatedComment.getAmountOfPages());
-            comment.setValidated(false);
+            comment.setCommenter(updatedComment.getCommenter());
+            comment.setMessage(updatedComment.getMessage());
+            comment.setDatePosted(updatedComment.getDatePosted());
+            comment.setReview(updatedComment.getReview());
 
             Comment savedComment= commentRepository.save(comment);
             return toCommentDto(savedComment);
@@ -56,13 +53,11 @@ public class CommentService {
         public static CommentDto toCommentDto(Comment comment) {
             CommentDto dto = new CommentDto();
             dto.setId(comment.getId());
-            dto.setTitle(comment.getTitle());
-            dto.setAuthor(comment.getAuthor());
-            dto.setDescription(comment.getDescription());
-            dto.setPrice(comment.getPrice());
-            dto.setCover(comment.getCover());
-            dto.setAmountOfPages(comment.getAmountOfPages());
-            dto.setValidated(false);
+            dto.setCommenter(comment.getCommenter());
+            dto.setMessage(comment.getMessage());
+            dto.setDatePosted(comment.getDatePosted());
+            dto.setReview(comment.getReview());
+
 
             return dto;
         }
@@ -70,13 +65,10 @@ public class CommentService {
         public Comment toComment(CommentDto commentDto) {
             Comment comment = new Comment();
             comment.setId(commentDto.getId());
-            comment.setTitle(commentDto.getTitle());
-            comment.setAuthor(commentDto.getAuthor());
-            comment.setDescription(commentDto.getDescription());
-            comment.setPrice(commentDto.getPrice());
-            comment.setCover(commentDto.getCover());
-            comment.setAmountOfPages(commentDto.getAmountOfPages());
-            comment.setValidated(false);
+            comment.setCommenter(commentDto.getCommenter());
+            comment.setMessage(commentDto.getMessage());
+            comment.setDatePosted(commentDto.getDatePosted());
+            comment.setReview(commentDto.getReview());
             return comment;
         }
 

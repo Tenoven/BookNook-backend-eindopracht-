@@ -1,5 +1,6 @@
 package nl.tenoven.BookNook.Mappers;
 
+import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
 import nl.tenoven.BookNook.Models.Book;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +13,9 @@ public class BookMappers {
         dto.setTitle(book.getTitle());
         dto.setAuthor(book.getAuthor());
         dto.setDescription(book.getDescription());
+        dto.setAmountOfPages(book.getAmountOfPages());
         dto.setPrice(book.getPrice());
         dto.setCover(book.getCover());
-        dto.setAmountOfPages(book.getAmountOfPages());
         dto.setValidated(book.isValidated());
 
         return dto;

@@ -21,8 +21,8 @@ public class Book {
     @ManyToOne
     private Author author;
     private String description;
-    private short amountOfPages;
-    private float price;
+    private Short amountOfPages;
+    private Float price;
 
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> review;

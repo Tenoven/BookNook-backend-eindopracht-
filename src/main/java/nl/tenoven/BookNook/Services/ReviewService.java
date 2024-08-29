@@ -33,11 +33,21 @@ public class ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
 
-        review.setReviewer(updatedReview.getReviewer());
-        review.setComments(updatedReview.getComments());
-        review.setBook(updatedReview.getBook());
-        review.setText(updatedReview.getText());
-        review.setScore(updatedReview.getScore());
+        if (updatedReview.getReviewer() != null) {
+            review.setReviewer(updatedReview.getReviewer());
+        }
+        if (updatedReview.getComments() != null) {
+            review.setComments(updatedReview.getComments());
+        }
+        if (updatedReview.getBook() != null) {
+            review.setBook(updatedReview.getBook());
+        }
+        if (updatedReview.getText() != null) {
+            review.setText(updatedReview.getText());
+        }
+        if (updatedReview.getScore() != null) {
+            review.setScore(updatedReview.getScore());
+        }
 
         Review savedReview= reviewRepository.save(review);
         return toReviewDto(savedReview);

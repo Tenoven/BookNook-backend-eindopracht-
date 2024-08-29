@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
+import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
 import org.springframework.stereotype.Service;
 
@@ -34,15 +35,37 @@ public class BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
 
-        book.setTitle(updatedBook.getTitle());
-        book.setAuthor(updatedBook.getAuthor());
-        book.setDescription(updatedBook.getDescription());
-        book.setPrice(updatedBook.getPrice());
-        book.setCover(updatedBook.getCover());
-        book.setAmountOfPages(updatedBook.getAmountOfPages());
+        if (updatedBook.getTitle() != null) {
+            book.setTitle(updatedBook.getTitle());
+        }
+        if (updatedBook.getAuthor() != null) {
+            book.setAuthor(updatedBook.getAuthor());
+        }
+        if (updatedBook.getDescription() != null) {
+            book.setDescription(updatedBook.getDescription());
+        }
+        if (updatedBook.getPrice() != null) {
+            book.setPrice(updatedBook.getPrice());
+        }
+        if (updatedBook.getCover() != null) {
+            book.setCover(updatedBook.getCover());
+        }
+        if (updatedBook.getAmountOfPages() != null) {
+            book.setAmountOfPages(updatedBook.getAmountOfPages());
+        }
+
         book.setValidated(false);
 
+
         Book savedBook= bookRepository.save(book);
+        return toBookDto(savedBook);
+    }
+
+    public BookDto validateBook(long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
+        book.setValidated(!book.isValidated());
+        Book savedBook = bookRepository.save(book);
         return toBookDto(savedBook);
     }
 
@@ -62,7 +85,7 @@ public class BookService {
         dto.setPrice(book.getPrice());
         dto.setCover(book.getCover());
         dto.setAmountOfPages(book.getAmountOfPages());
-        dto.setValidated(false);
+        dto.setValidated(book.isValidated());
 
         return dto;
     }

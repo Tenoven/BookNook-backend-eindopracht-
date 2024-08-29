@@ -29,16 +29,34 @@ public class AuthorService {
         return toAuthorDto(savedAuthor);
     }
 
-    public AuthorDto updateAuthor(long id, Author updatedAuthor) {
+    public AuthorDto updateAuthor(long id, AuthorDto updatedAuthor) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
 
-        author.setName(updatedAuthor.getName());
-        author.setDescription(updatedAuthor.getDescription());
-        author.setPhoto(updatedAuthor.getPhoto());
-        author.setDateOfBirth(updatedAuthor.getDateOfBirth());
+        if(updatedAuthor.getName() != null ) {
+            author.setName(updatedAuthor.getName());
+        }
+        if(updatedAuthor.getDescription() != null ) {
+            author.setDescription(updatedAuthor.getDescription());
+        }
+        if(updatedAuthor.getPhoto() != null ) {
+            author.setPhoto(updatedAuthor.getPhoto());
+        }
+        if(updatedAuthor.getDateOfBirth() != null ) {
+            author.setDateOfBirth(updatedAuthor.getDateOfBirth());
+        }
+
         author.setValidated(false);
 
+
+        Author savedAuthor = authorRepository.save(author);
+        return toAuthorDto(savedAuthor);
+    }
+
+    public AuthorDto validateAthor(long id) {
+        Author author = authorRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
+            author.setValidated(!author.isValidated());
         Author savedAuthor = authorRepository.save(author);
         return toAuthorDto(savedAuthor);
     }
@@ -57,7 +75,7 @@ public class AuthorService {
         dto.setDescription(author.getDescription());
         dto.setPhoto(author.getPhoto());
         dto.setDateOfBirth(author.getDateOfBirth());
-        dto.setValidated(false);
+        dto.setValidated(author.isValidated());
         dto.setBooks(author.getBooks());
 
         return dto;

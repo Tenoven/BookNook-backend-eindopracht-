@@ -34,10 +34,18 @@ public class CommentService {
             Comment comment = commentRepository.findById(id)
                     .orElseThrow(()-> new EntityNotFoundException("Comment" + id + "not found"));
 
-            comment.setCommenter(updatedComment.getCommenter());
-            comment.setMessage(updatedComment.getMessage());
-            comment.setDatePosted(updatedComment.getDatePosted());
-            comment.setReview(updatedComment.getReview());
+            if (updatedComment.getCommenter() != null) {
+                comment.setCommenter(updatedComment.getCommenter());
+            }
+            if (updatedComment.getMessage() != null) {
+                comment.setMessage(updatedComment.getMessage());
+            }
+            if (updatedComment.getDatePosted() != null) {
+                comment.setDatePosted(updatedComment.getDatePosted());
+            }
+            if (updatedComment.getReview() != null) {
+                comment.setReview(updatedComment.getReview());
+            }
 
             Comment savedComment= commentRepository.save(comment);
             return toCommentDto(savedComment);

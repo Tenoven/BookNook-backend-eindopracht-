@@ -6,6 +6,8 @@ import nl.tenoven.BookNook.Repositories.ImageRepository;
 
 import java.util.List;
 
+import static nl.tenoven.BookNook.Mappers.ImageMapper.toImageDto;
+
 public class ImageService {
     private ImageRepository imageRepository;
 
@@ -49,23 +51,6 @@ public class ImageService {
             throw new EntityNotFoundException("Image" + id + "not found");
         }
         imageRepository.deleteById(id);
-    }
-
-    public static ImageDto toImageDto(Image image) {
-        ImageDto dto = new ImageDto();
-        dto.setId(image.getId());
-        dto.setFileType(image.getFileType());
-        dto.setData(image.getData());
-
-        return dto;
-    }
-
-    public Image toImage(ImageDto imageDto) {
-        Image image = new Image();
-        image.setId(imageDto.getId());
-        image.setFileType(imageDto.getFileType());
-        image.setData(imageDto.getData());
-        return image;
     }
 
 }

@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
+import nl.tenoven.BookNook.Dtos.ImageDtos.ImageDto;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Repositories.ImageRepository;
 

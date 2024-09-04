@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
+import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
 import nl.tenoven.BookNook.Models.Comment;
 
 import nl.tenoven.BookNook.Repositories.CommentRepository;
@@ -63,4 +64,4 @@ public class CommentService {
         }
 
     }
-}
+

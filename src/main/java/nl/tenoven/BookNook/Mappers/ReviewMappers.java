@@ -1,5 +1,6 @@
 package nl.tenoven.BookNook.Mappers;
 
+import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
 import nl.tenoven.BookNook.Models.Review;
 
 public class ReviewMappers {

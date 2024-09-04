@@ -1,10 +1,11 @@
 package nl.tenoven.BookNook.Mappers;
 
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Models.Author;
 
 public class AuthorMappers {
     public static AuthorDto toAuthorDto(Author author) {
-        AuthorDto dto = new Author();
+        AuthorDto dto = new AuthorDto();
         dto.setId(author.getId());
         dto.setName(author.getName());
         dto.setDescription(author.getDescription());

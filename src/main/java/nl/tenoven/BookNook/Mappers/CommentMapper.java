@@ -1,5 +1,6 @@
 package nl.tenoven.BookNook.Mappers;
 
+import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
 import nl.tenoven.BookNook.Models.Comment;
 
 public class CommentMapper {

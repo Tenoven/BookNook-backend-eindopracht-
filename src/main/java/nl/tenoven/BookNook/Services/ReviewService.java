@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
+import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
 import nl.tenoven.BookNook.Models.Review;
 import nl.tenoven.BookNook.Repositories.ReviewRepository;
 import org.springframework.stereotype.Service;

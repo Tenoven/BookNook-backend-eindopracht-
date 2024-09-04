@@ -1,5 +1,6 @@
 package nl.tenoven.BookNook.Mappers;
 
+import nl.tenoven.BookNook.Dtos.ImageDtos.ImageDto;
 import nl.tenoven.BookNook.Models.Image;
 
 public class ImageMapper {

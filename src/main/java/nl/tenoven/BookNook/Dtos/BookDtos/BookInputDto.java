@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Dtos.BookDtos;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,8 @@ import java.util.List;
 public class BookInputDto {
         @NotEmpty
         private String title;
-        @NotEmpty
-        private Author author;
+        @NotNull
+        private Long authorId;
         @NotEmpty
         private String description;
         private Short amountOfPages;
@@ -25,19 +26,5 @@ public class BookInputDto {
         private Float price;
         private List<Review> review;
         private Image cover;
-        private Boolean validated;
 
-            public BookInputDto(String title, Author author, String description, Short amountOfPages, Float price, List<Review> review, Image cover, Boolean validated) {
-                    this.title = title;
-                    this.author = author;
-                    this.description = description;
-                    this.amountOfPages = amountOfPages;
-                    this.price = price;
-                    this.review = review;
-                    this.cover = cover;
-                    this.validated = validated;
-            }
-
-            public BookInputDto() {
-            }
     }

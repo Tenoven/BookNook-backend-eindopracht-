@@ -12,7 +12,9 @@ public class AuthorMappers {
         dto.setPhoto(author.getPhoto());
         dto.setDateOfBirth(author.getDateOfBirth());
         dto.setValidated(author.isValidated());
-        dto.setBooks(author.getBooks());
+//        if (author.getBooks() != null) {
+//            dto.setBooks(BookMappers.toDtoList(author.getBooks()));
+//        }
 
         return dto;
     }
@@ -25,7 +27,7 @@ public class AuthorMappers {
         author.setPhoto(authorDto.getPhoto());
         author.setDateOfBirth(authorDto.getDateOfBirth());
         author.setValidated(false);
-        author.setBooks(authorDto.getBooks());
+//        author.setBooks(authorDto.getBooks());
 
         return author;
     }

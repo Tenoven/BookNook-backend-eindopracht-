@@ -10,20 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class AuthorInputDto {
-    @NotEmpty
+public class AuthorPutDto {
     private String name;
     private String dateOfBirth;
-    @NotEmpty
     private String description;
+    private boolean validated;
     private List<Book> books;
     private Image photo;
-
-    public AuthorInputDto(String name, String dateOfBirth, String description, boolean validated, List<Book> books, Image photo) {
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.description = description;
-        this.books = books;
-        this.photo = photo;
-    }
 }

@@ -2,13 +2,18 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static nl.tenoven.BookNook.Mappers.AuthorMappers.toAuthor;
 import static nl.tenoven.BookNook.Mappers.AuthorMappers.toAuthorDto;
+
 
 @Service
 public class AuthorService {
@@ -20,20 +25,29 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public List<Author> getAuthors() { return authorRepository.findAll();}
+    public List<AuthorDto> getAuthors() {
+        List<Author> authors = authorRepository.findAll();
+        List<AuthorDto> authorDtos = new ArrayList<>();
 
-    public Author getAuthor(long id) {
+        for (Author author: authors) {
+            authorDtos.add(toAuthorDto(author));
+        }
+        return authorDtos;
+    }
+
+    public AuthorDto getAuthor(long id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
-        return author;
+        return toAuthorDto(author);
     }
 
-    public AuthorDto addAuthor(Author newAuthor) {
-        Author savedAuthor = authorRepository.save(newAuthor);
-        return toAuthorDto(savedAuthor);
+    public AuthorDto addAuthor(AuthorInputDto newAuthor) {
+        Author savedAuthor = toAuthor(newAuthor);
+        Author author = authorRepository.save(savedAuthor);
+        return toAuthorDto(author);
     }
 
-    public AuthorDto updateAuthor(long id, AuthorDto updatedAuthor) {
+    public AuthorDto updateAuthor(long id, AuthorPutDto updatedAuthor) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
 
@@ -65,7 +79,7 @@ public class AuthorService {
         return toAuthorDto(savedAuthor);
     }
 
-    public void delete(long id) {
+    public void deleteAuthor(long id) {
         if (!authorRepository.existsById(id)) {
             throw new EntityNotFoundException("Author" + id + "not found");
         }

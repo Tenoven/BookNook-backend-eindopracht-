@@ -23,19 +23,19 @@ public class BookService {
 
     private BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     public List<BookDto> getBooks() {
 
-       List<Book> Books = bookRepository.findAll();
-       List<BookDto> bookDto = new ArrayList<>();
+       List<Book> books = bookRepository.findAll();
+       List<BookDto> bookDtos = new ArrayList<>();
 
-        for (Book book: Books) {
-            bookDto.add(toBookDto(book));
+        for (Book book: books) {
+            bookDtos.add(toBookDto(book));
         }
-        return bookDto;
+        return bookDtos;
     }
 
     public BookDto getBook(long id) {

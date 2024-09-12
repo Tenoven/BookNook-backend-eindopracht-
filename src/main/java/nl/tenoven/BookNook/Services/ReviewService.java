@@ -2,12 +2,16 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
+import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewInputDto;
+import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewPutDto;
 import nl.tenoven.BookNook.Models.Review;
 import nl.tenoven.BookNook.Repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static nl.tenoven.BookNook.Mappers.ReviewMappers.toReview;
 import static nl.tenoven.BookNook.Mappers.ReviewMappers.toReviewDto;
 
 @Service
@@ -18,34 +22,31 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<Review> getReviews() {
-        return reviewRepository.findAll();
+    public List<ReviewDto> getReviews() {
+        List<Review> reviews = reviewRepository.findAll();
+        List<ReviewDto> dtos = new ArrayList<>();
+
+        for (Review review: reviews) {
+            dtos.add(toReviewDto(review));
+        }
+        return dtos;
     }
 
-    public Review getReview(long id) {
+    public ReviewDto getReview(long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
-        return review;
+        return toReviewDto(review);
     }
 
-    public ReviewDto addReview(Review newReview) {
-        Review savedReview = reviewRepository.save(newReview);
+    public ReviewDto addReview(ReviewInputDto newReview) {
+        Review savedReview = reviewRepository.save(toReview(newReview));
         return toReviewDto(savedReview);
     }
 
-    public ReviewDto updateReview(long id, Review updatedReview) {
+    public ReviewDto updateReview(long id, ReviewPutDto updatedReview) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
 
-        if (updatedReview.getReviewer() != null) {
-            review.setReviewer(updatedReview.getReviewer());
-        }
-        if (updatedReview.getComments() != null) {
-            review.setComments(updatedReview.getComments());
-        }
-        if (updatedReview.getBook() != null) {
-            review.setBook(updatedReview.getBook());
-        }
         if (updatedReview.getText() != null) {
             review.setText(updatedReview.getText());
         }
@@ -63,7 +64,5 @@ public class ReviewService {
         }
         reviewRepository.deleteById(id);
     }
-
-
 
 }

@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Mappers;
 
 import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
+import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewInputDto;
 import nl.tenoven.BookNook.Models.Review;
 
 public class ReviewMappers {
@@ -16,9 +17,8 @@ public class ReviewMappers {
         return dto;
     }
 
-    public Review toReview(ReviewDto reviewDto) {
+    public static Review toReview(ReviewInputDto reviewDto) {
         Review review = new Review();
-        review.setId(reviewDto.getId());
         review.setReviewer(reviewDto.getReviewer());
         review.setComments(reviewDto.getComments());
         review.setBook(reviewDto.getBook());

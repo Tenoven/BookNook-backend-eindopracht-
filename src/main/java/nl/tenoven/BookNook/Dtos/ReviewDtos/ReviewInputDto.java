@@ -1,8 +1,6 @@
 package nl.tenoven.BookNook.Dtos.ReviewDtos;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Models.Comment;
@@ -18,16 +16,18 @@ public class ReviewInputDto {
     @NotEmpty
     private String book;
     @NotEmpty
-    private String Text;
+    private String text;
     @NotNull
-    @Size(max = 100, message = "The maximum value is 100")
-    private Byte Score;
+    @Min(value = 0, message = "The minimum value is 0")
+    @Max(value = 100, message = "The maximum value is 100")
+    private Byte score;
+
 
     public ReviewInputDto(String reviewer, List<Comment> comments, String book, String text, Byte score) {
         this.reviewer = reviewer;
         this.comments = comments;
         this.book = book;
-        Text = text;
-        Score = score;
+        this.text = text;
+        this.score = score;
     }
 }

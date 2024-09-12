@@ -7,7 +7,9 @@ import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
 import nl.tenoven.BookNook.Services.AuthorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -34,11 +36,15 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<AuthorDto> addAuthor(@Valid @RequestBody AuthorInputDto dto) {
         AuthorDto authorDto = authorService.addAuthor(dto);
-        return  ResponseEntity.created(null).body(authorDto);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(authorDto.getId()).toUri();
+
+        return  ResponseEntity.created(location).body(authorDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteAuthor(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         authorService.deleteAuthor(id);
         return ResponseEntity.noContent().build();
     }

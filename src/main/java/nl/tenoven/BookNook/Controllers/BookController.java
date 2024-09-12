@@ -8,7 +8,9 @@ import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
 import nl.tenoven.BookNook.Services.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -35,13 +37,16 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<BookDto> addBook(@Valid @RequestBody BookInputDto dto) {
-
         BookDto bookDto = bookService.addBook(dto);
-        return ResponseEntity.created(null).body(bookDto);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(bookDto.getId()).toUri();
+
+        return ResponseEntity.created(location).body(bookDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }

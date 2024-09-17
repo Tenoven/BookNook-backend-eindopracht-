@@ -38,7 +38,7 @@ public class BookService {
         return bookDtos;
     }
 
-    public BookDto getBook(long id) {
+    public BookDto getBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book " + id + " not found"));
         return toBookDto(book);
@@ -50,7 +50,7 @@ public class BookService {
         return toBookDto(book);
     }
 
-    public BookDto updateBook(long id, BookPutDto updatedBook) {
+    public BookDto updateBook(Long id, BookPutDto updatedBook) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
 
@@ -82,7 +82,7 @@ public class BookService {
         return toBookDto(savedBook);
     }
 
-    public BookDto validateBook(long id) {
+    public BookDto validateBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
         book.setValidated(!book.isValidated());
@@ -90,7 +90,7 @@ public class BookService {
         return toBookDto(savedBook);
     }
 
-    public void deleteBook(long id) {
+    public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {
             throw new EntityNotFoundException("Book" + id + "not found");
         }

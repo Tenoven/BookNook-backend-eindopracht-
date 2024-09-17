@@ -9,12 +9,6 @@ import nl.tenoven.BookNook.Models.Image;
 @Setter
 public class ImageInputDto {
     @NotEmpty
-    private Image.FileType fileType;
-    @NotEmpty
-    private byte[] Data;
+    private String fileName;
 
-    public ImageInputDto(Image.FileType fileType, byte[] data) {
-        this.fileType = fileType;
-        Data = data;
-    }
 }

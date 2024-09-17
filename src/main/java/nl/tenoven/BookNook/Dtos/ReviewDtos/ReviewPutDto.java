@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewPutDto {
+    private String reviewTitle;
     private String text;
     @Min(value = 0, message = "The minimum value is 0")
     @Max(value = 100, message = "The maximum value is 100")

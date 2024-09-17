@@ -20,4 +20,3 @@ public class BookPutDto {
     private List<Review> review;
     private Image cover;
 }
-//

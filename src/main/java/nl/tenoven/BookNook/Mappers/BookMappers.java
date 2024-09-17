@@ -12,8 +12,6 @@ import java.util.List;
 
 @Component
 public class BookMappers {
-
-
     public static BookDto toBookDto(Book book) {
         BookDto dto = new BookDto();
         dto.setId(book.getId());
@@ -30,10 +28,13 @@ public class BookMappers {
 
     public static Book toBook(BookInputDto bookDto) {
         Book book = new Book();
+
         book.setTitle(bookDto.getTitle());
+
         Author author = new Author();
         author.setId(bookDto.getAuthorId());
         book.setAuthor(author);
+
         book.setDescription(bookDto.getDescription());
         book.setPrice(bookDto.getPrice());
         book.setCover(bookDto.getCover());

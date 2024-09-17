@@ -9,7 +9,10 @@ public class ReviewMappers {
         ReviewDto dto = new ReviewDto();
         dto.setId(review.getId());
         dto.setReviewer(review.getReviewer());
-        dto.setComments(review.getComments());
+        if (review.getComments() != null){
+            dto.setComments(review.getComments().stream().map(CommentMapper::toCommentDto).toList());
+        }
+        dto.setReviewTitle(review.getReviewTitle());
         dto.setBook(review.getBook());
         dto.setText(review.getText());
         dto.setScore(review.getScore());
@@ -20,6 +23,7 @@ public class ReviewMappers {
     public static Review toReview(ReviewInputDto reviewDto) {
         Review review = new Review();
         review.setReviewer(reviewDto.getReviewer());
+        review.setReviewTitle(reviewDto.getReviewTitle());
         review.setComments(reviewDto.getComments());
         review.setBook(reviewDto.getBook());
         review.setText(reviewDto.getText());

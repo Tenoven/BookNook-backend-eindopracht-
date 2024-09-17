@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class AuthorDto {
-    private long id;
+    private Long id;
     private String name;
     private String dateOfBirth;
     private String description;

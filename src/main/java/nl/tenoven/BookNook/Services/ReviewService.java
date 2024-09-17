@@ -32,7 +32,7 @@ public class ReviewService {
         return dtos;
     }
 
-    public ReviewDto getReview(long id) {
+    public ReviewDto getReview(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
         return toReviewDto(review);
@@ -43,7 +43,7 @@ public class ReviewService {
         return toReviewDto(savedReview);
     }
 
-    public ReviewDto updateReview(long id, ReviewPutDto updatedReview) {
+    public ReviewDto updateReview(Long id, ReviewPutDto updatedReview) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
 
@@ -58,7 +58,7 @@ public class ReviewService {
         return toReviewDto(savedReview);
     }
 
-    public void deleteReview(long id) {
+    public void deleteReview(Long id) {
         if (!reviewRepository.existsById(id)) {
             throw new EntityNotFoundException("Review" + id + "not found");
         }

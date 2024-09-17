@@ -1,6 +1,7 @@
 package nl.tenoven.BookNook.Dtos.CommentDtos;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Models.Review;
@@ -14,13 +15,7 @@ public class CommentInputDto {
     private String message;
     @NotEmpty
     private String datePosted;
-    @NotEmpty
-    private Review review;
+    @NotNull
+    private Long reviewId;
 
-    public CommentInputDto(String commenter, String message, String datePosted, Review review) {
-        this.commenter = commenter;
-        this.message = message;
-        this.datePosted = datePosted;
-        this.review = review;
-    }
 }

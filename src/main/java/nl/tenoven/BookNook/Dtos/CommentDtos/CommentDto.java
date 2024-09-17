@@ -9,11 +9,12 @@ import nl.tenoven.BookNook.Models.Review;
 @Getter
 @Setter
 public class CommentDto {
-    private long id;
+    private Long id;
     private String commenter;
     private String message;
     private String datePosted;
-    private Review review;
+    private String reviewTitle;
+    private Long reviewId;
 
     public CommentDto() {
     }

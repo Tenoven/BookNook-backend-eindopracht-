@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "Books")
+@Table(name = "books")
 @Entity
 public class Book {
 
@@ -30,7 +30,7 @@ public class Book {
     private Float price;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> review;
+    private List<Review> reviews;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image cover;

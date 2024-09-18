@@ -2,6 +2,7 @@ package nl.tenoven.BookNook.Mappers;
 
 import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
 import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewInputDto;
+import nl.tenoven.BookNook.Models.Book;
 import nl.tenoven.BookNook.Models.Review;
 
 public class ReviewMappers {
@@ -13,7 +14,7 @@ public class ReviewMappers {
             dto.setComments(review.getComments().stream().map(CommentMapper::toCommentDto).toList());
         }
         dto.setReviewTitle(review.getReviewTitle());
-        dto.setBook(review.getBook());
+        dto.setBookName(review.getBook().getTitle());
         dto.setText(review.getText());
         dto.setScore(review.getScore());
 
@@ -25,7 +26,11 @@ public class ReviewMappers {
         review.setReviewer(reviewDto.getReviewer());
         review.setReviewTitle(reviewDto.getReviewTitle());
         review.setComments(reviewDto.getComments());
-        review.setBook(reviewDto.getBook());
+
+        Book book = new Book();
+        book.setId(reviewDto.getBookId());
+        review.setBook(book);
+
         review.setText(reviewDto.getText());
         review.setScore(reviewDto.getScore());
         return review;

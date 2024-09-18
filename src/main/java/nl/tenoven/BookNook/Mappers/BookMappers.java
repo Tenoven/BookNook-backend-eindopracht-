@@ -22,6 +22,9 @@ public class BookMappers {
         dto.setPrice(book.getPrice());
         dto.setCover(book.getCover());
         dto.setValidated(book.isValidated());
+        if (book.getReviews() != null) {
+            dto.setReviews(book.getReviews().stream().map(ReviewMappers::toReviewDto).toList());
+        }
 
         return dto;
     }
@@ -35,6 +38,7 @@ public class BookMappers {
         author.setId(bookDto.getAuthorId());
         book.setAuthor(author);
 
+        book.setReviews(bookDto.getReviews());
         book.setDescription(bookDto.getDescription());
         book.setPrice(bookDto.getPrice());
         book.setCover(bookDto.getCover());
@@ -42,15 +46,5 @@ public class BookMappers {
         book.setValidated(false);
         return book;
     }
-
-    public static List<BookDto> toDtoList(List<Book> books){
-        List<BookDto> dtoList = new ArrayList<>();
-        for (Book b : books){
-            dtoList.add(toBookDto(b));
-        }
-        return dtoList;
-    }
-
-
 
 }

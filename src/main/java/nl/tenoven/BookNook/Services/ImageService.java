@@ -16,13 +16,8 @@ import java.nio.file.*;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 import java.util.Objects;
 
-import static nl.tenoven.BookNook.Mappers.ImageMapper.toImageDto;
 
 @Service
 public class ImageService {

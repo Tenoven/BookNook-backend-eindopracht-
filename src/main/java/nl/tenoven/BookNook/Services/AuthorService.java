@@ -105,7 +105,7 @@ public class AuthorService {
             Author savedAuthor = authorRepository.save(author);
             return toAuthorDto(savedAuthor);
         } else {
-            throw new RecordNotFoundException("student of foto niet gevonden");
+            throw new RecordNotFoundException("Author or photo not found");
         }
     }
 }

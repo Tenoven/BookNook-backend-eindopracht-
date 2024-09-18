@@ -6,8 +6,10 @@ import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
-import nl.tenoven.BookNook.Repositories.AuthorRepository;
+import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Repositories.BookRepository;
+import nl.tenoven.BookNook.Repositories.ImageRepository;
+import nl.tenoven.BookNook.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,10 +23,12 @@ import static nl.tenoven.BookNook.Mappers.BookMappers.toBook;
 @Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
+    private final ImageRepository imageRepository;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, ImageRepository imageRepository) {
         this.bookRepository = bookRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<BookDto> getBooks() {
@@ -95,6 +99,21 @@ public class BookService {
             throw new EntityNotFoundException("Book" + id + "not found");
         }
         bookRepository.deleteById(id);
+    }
+
+    public BookDto assignCoverToBook(String fileName, Long bookId) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        Optional<Image> optionalCover = imageRepository.findById(fileName);
+
+        if (optionalBook.isPresent() && optionalCover.isPresent()) {
+            Image cover = optionalCover.get();
+            Book book  = optionalBook.get();
+            book.setCover(cover);
+            Book savedBook = bookRepository.save(book);
+            return toBookDto(savedBook);
+        } else {
+            throw new RecordNotFoundException("Book or cover not found");
+        }
     }
 
 }

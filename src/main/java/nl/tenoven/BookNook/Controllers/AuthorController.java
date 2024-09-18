@@ -55,13 +55,6 @@ public class AuthorController {
         try{
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
-            /*
-            "application/octet-steam" is de generieke mime type voor byte data.
-            Het is beter om een specifiekere mimetype te gebruiken, zoals "image/jpeg".
-            Mimetype is nodig om de frontend te laten weten welke soort data het is.
-            Met de juiste MimeType en Content-Disposition, kun je de plaatjes of PDFs die je upload
-            zelfs in de browser weergeven.
-             */
             mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
 
@@ -87,7 +80,7 @@ public class AuthorController {
                                                      @RequestBody MultipartFile photo)
             throws IOException {
         String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/Authors/")
+                .path("/authors/")
                 .path(Objects.requireNonNull(authorId.toString()))
                 .path("/photo")
                 .toUriString();

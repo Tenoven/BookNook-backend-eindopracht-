@@ -2,40 +2,47 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
+import nl.tenoven.BookNook.Dtos.CommentDtos.CommentInputDto;
+import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPutDto;
+import nl.tenoven.BookNook.Mappers.CommentMapper;
 import nl.tenoven.BookNook.Models.Comment;
 
+import nl.tenoven.BookNook.Models.Review;
 import nl.tenoven.BookNook.Repositories.CommentRepository;
+import nl.tenoven.BookNook.Repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static nl.tenoven.BookNook.Mappers.CommentMapper.toComment;
 import static nl.tenoven.BookNook.Mappers.CommentMapper.toCommentDto;
 
 @Service
 public class CommentService {
 
-        private CommentRepository commentRepository;
+        private final CommentRepository commentRepository;
+        private final ReviewRepository reviewRepository;
 
-        public CommentService(CommentRepository commentRepository) {
+        public CommentService(CommentRepository commentRepository, ReviewRepository reviewRepository) {
             this.commentRepository = commentRepository;
+            this.reviewRepository = reviewRepository;
         }
 
-        public List<Comment> getComments() {
-            return commentRepository.findAll();
+        public List<CommentDto> getCommentsByReviewId(Long reviewId) {
+            Review review = reviewRepository.findById(reviewId)
+                    .orElseThrow(() -> new EntityNotFoundException("Review " + reviewId + " not found"));
+            List<Comment> comments = review.getComments();
+            List<CommentDto> commentDtos = comments.stream().map(CommentMapper::toCommentDto).toList();
+
+            return commentDtos;
         }
 
-        public Comment getComment(long id) {
-            Comment comment = commentRepository.findById(id)
-                    .orElseThrow(()-> new EntityNotFoundException("Comment" + id + "not found"));
-            return comment;
-        }
-
-        public CommentDto addComment(Comment newComment) {
-            Comment savedComment = commentRepository.save(newComment);
+        public CommentDto addComment(CommentInputDto newComment) {
+            Comment savedComment = commentRepository.save(toComment(newComment));
             return toCommentDto(savedComment);
         }
 
-        public CommentDto updateComment(long id, Comment updatedComment) {
+        public CommentDto updateComment(Long id, CommentPutDto updatedComment) {
             Comment comment = commentRepository.findById(id)
                     .orElseThrow(()-> new EntityNotFoundException("Comment" + id + "not found"));
 
@@ -56,12 +63,14 @@ public class CommentService {
             return toCommentDto(savedComment);
         }
 
-        public void deleteComment(long id) {
+        public void deleteComment(Long id) {
             if (!commentRepository.existsById(id)) {
                 throw new EntityNotFoundException("Comment" + id + "not found");
             }
             commentRepository.deleteById(id);
         }
+
+
 
     }
 

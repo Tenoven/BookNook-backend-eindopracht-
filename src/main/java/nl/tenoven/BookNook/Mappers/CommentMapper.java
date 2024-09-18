@@ -1,7 +1,9 @@
 package nl.tenoven.BookNook.Mappers;
 
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
+import nl.tenoven.BookNook.Dtos.CommentDtos.CommentInputDto;
 import nl.tenoven.BookNook.Models.Comment;
+import nl.tenoven.BookNook.Models.Review;
 
 public class CommentMapper {
 
@@ -11,19 +13,21 @@ public class CommentMapper {
         dto.setCommenter(comment.getCommenter());
         dto.setMessage(comment.getMessage());
         dto.setDatePosted(comment.getDatePosted());
-        dto.setReview(comment.getReview());
+        dto.setReviewId(comment.getReview().getId());
 
 
         return dto;
     }
 
-    public Comment toComment(CommentDto commentDto) {
+    public static Comment toComment(CommentInputDto commentDto) {
         Comment comment = new Comment();
-        comment.setId(commentDto.getId());
         comment.setCommenter(commentDto.getCommenter());
         comment.setMessage(commentDto.getMessage());
         comment.setDatePosted(commentDto.getDatePosted());
-        comment.setReview(commentDto.getReview());
+
+        Review review = new Review();
+        review.setId(commentDto.getReviewId());
+        comment.setReview(review);
         return comment;
     }
 

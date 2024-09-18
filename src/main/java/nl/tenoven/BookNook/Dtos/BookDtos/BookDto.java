@@ -2,6 +2,7 @@ package nl.tenoven.BookNook.Dtos.BookDtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Models.Review;
@@ -14,7 +15,7 @@ public class BookDto {
 
     private Long id;
     private String title;
-    private Author author;
+    private String authorName;
     private String description;
     private Short amountOfPages;
     private Float price;

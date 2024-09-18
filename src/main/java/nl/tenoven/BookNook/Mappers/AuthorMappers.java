@@ -1,7 +1,9 @@
 package nl.tenoven.BookNook.Mappers;
 
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
 import nl.tenoven.BookNook.Models.Author;
+import nl.tenoven.BookNook.Models.Book;
 
 public class AuthorMappers {
     public static AuthorDto toAuthorDto(Author author) {
@@ -12,20 +14,21 @@ public class AuthorMappers {
         dto.setPhoto(author.getPhoto());
         dto.setDateOfBirth(author.getDateOfBirth());
         dto.setValidated(author.isValidated());
-        dto.setBooks(author.getBooks());
+        if (author.getBooks() != null) {
+            dto.setBooks(author.getBooks().stream().map(BookMappers::toBookDto).toList());
+        }
 
         return dto;
     }
 
-    public Author toAuthor(AuthorDto authorDto) {
+    public static Author toAuthor(AuthorInputDto dto) {
         Author author = new Author();
-        author.setId(authorDto.getId());
-        author.setName(authorDto.getName());
-        author.setDescription(authorDto.getDescription());
-        author.setPhoto(authorDto.getPhoto());
-        author.setDateOfBirth(authorDto.getDateOfBirth());
+        author.setName(dto.getName());
+        author.setDescription(dto.getDescription());
+        author.setPhoto(dto.getPhoto());
+        author.setDateOfBirth(dto.getDateOfBirth());
         author.setValidated(false);
-        author.setBooks(authorDto.getBooks());
+        author.setBooks(dto.getBooks());
 
         return author;
     }

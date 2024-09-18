@@ -7,10 +7,6 @@ import nl.tenoven.BookNook.Models.Image;
 @Getter
 @Setter
 public class ImageDto {
-    private long Id;
-    private Image.FileType fileType;
-    private byte[] Data;
+    private String fileName;
 
-    public ImageDto() {
-    }
 }

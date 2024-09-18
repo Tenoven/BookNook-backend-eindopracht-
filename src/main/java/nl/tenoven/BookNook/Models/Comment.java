@@ -12,7 +12,7 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String commenter;
     private String message;
     private String datePosted;
@@ -24,7 +24,7 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(long id, String user, String message, String datePosted) {
+    public Comment(Long id, String user, String message, String datePosted) {
         this.id = id;
         this.commenter = user;
         this.message = message;

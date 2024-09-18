@@ -10,13 +10,13 @@ import lombok.Setter;
 @Entity
 public class Image {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private long Id;
-    @Enumerated(EnumType.STRING)
-    private FileType fileType;
-    private byte[] Data;
+    private String fileName;
 
+    public Image(String fileName) {
+        this.fileName = fileName;
+    }
 
-    public enum FileType { JPG, jpg, PNG, png}
+    public Image() {
+    }
 
 }

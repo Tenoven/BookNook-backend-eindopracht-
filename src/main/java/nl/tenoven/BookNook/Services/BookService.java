@@ -2,47 +2,69 @@ package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
+import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
+import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
+import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
+import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Repositories.BookRepository;
+import nl.tenoven.BookNook.Repositories.ImageRepository;
+import nl.tenoven.BookNook.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static nl.tenoven.BookNook.Mappers.BookMappers.toBookDto;
+import static nl.tenoven.BookNook.Mappers.BookMappers.toBook;
+
 
 @Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
+    private final ImageRepository imageRepository;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, ImageRepository imageRepository) {
         this.bookRepository = bookRepository;
+        this.imageRepository = imageRepository;
     }
 
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public List<BookDto> getBooks() {
+
+       List<Book> books = bookRepository.findAll();
+       List<BookDto> bookDtos = new ArrayList<>();
+
+        for (Book book: books) {
+            bookDtos.add(toBookDto(book));
+        }
+        return bookDtos;
     }
 
-    public Book getBook(long id) {
+    public BookDto getBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
-        return book;
+                .orElseThrow(()-> new EntityNotFoundException("Book " + id + " not found"));
+        return toBookDto(book);
     }
 
-    public BookDto addBook(Book newBook) {
-        Book savedBook = bookRepository.save(newBook);
-        return toBookDto(savedBook);
+    public BookDto addBook(BookInputDto newBook) {
+        Book savedBook = toBook(newBook);
+        Book book = bookRepository.save(savedBook);
+        return toBookDto(book);
     }
 
-    public BookDto updateBook(long id, Book updatedBook) {
+    public BookDto updateBook(Long id, BookPutDto updatedBook) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
 
         if (updatedBook.getTitle() != null) {
             book.setTitle(updatedBook.getTitle());
         }
-        if (updatedBook.getAuthor() != null) {
-            book.setAuthor(updatedBook.getAuthor());
+        if (updatedBook.getAuthorId() != null) {
+            Author author = new Author();
+            author.setId(updatedBook.getAuthorId());
+            book.setAuthor(author);
         }
         if (updatedBook.getDescription() != null) {
             book.setDescription(updatedBook.getDescription());
@@ -64,7 +86,7 @@ public class BookService {
         return toBookDto(savedBook);
     }
 
-    public BookDto validateBook(long id) {
+    public BookDto validateBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
         book.setValidated(!book.isValidated());
@@ -72,11 +94,26 @@ public class BookService {
         return toBookDto(savedBook);
     }
 
-    public void deleteBook(long id) {
+    public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {
             throw new EntityNotFoundException("Book" + id + "not found");
         }
         bookRepository.deleteById(id);
+    }
+
+    public BookDto assignCoverToBook(String fileName, Long bookId) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        Optional<Image> optionalCover = imageRepository.findById(fileName);
+
+        if (optionalBook.isPresent() && optionalCover.isPresent()) {
+            Image cover = optionalCover.get();
+            Book book  = optionalBook.get();
+            book.setCover(cover);
+            Book savedBook = bookRepository.save(book);
+            return toBookDto(savedBook);
+        } else {
+            throw new RecordNotFoundException("Book or cover not found");
+        }
     }
 
 }

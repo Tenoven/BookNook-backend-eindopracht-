@@ -16,8 +16,6 @@ public class AuthorInputDto {
     private String dateOfBirth;
     @NotEmpty
     private String description;
-    @NotEmpty
-    private boolean validated;
     private List<Book> books;
     private Image photo;
 
@@ -25,7 +23,6 @@ public class AuthorInputDto {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.description = description;
-        this.validated = validated;
         this.books = books;
         this.photo = photo;
     }

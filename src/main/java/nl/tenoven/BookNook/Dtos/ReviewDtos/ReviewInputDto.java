@@ -19,7 +19,7 @@ public class ReviewInputDto {
     private List<Comment> comments;
 
     @NotEmpty
-    private String book;
+    private Long bookId;
 
     @NotEmpty
     private String text;

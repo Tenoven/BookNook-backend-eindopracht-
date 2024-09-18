@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "Revieuws")
+@Table(name = "Reviews")
 @Entity
 public class Review {
 
@@ -24,7 +24,8 @@ public class Review {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    private String book;
+    @ManyToOne
+    private Book book;
     private String Text;
     private Byte Score;
 

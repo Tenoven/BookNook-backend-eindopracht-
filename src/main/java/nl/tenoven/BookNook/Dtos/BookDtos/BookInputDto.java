@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
+import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Models.Review;
@@ -24,7 +25,7 @@ public class BookInputDto {
 
         @Positive(message = "Price must be higher then 0")
         private Float price;
-        private List<Review> review;
+        private List<Review> reviews;
         private Image cover;
 
     }

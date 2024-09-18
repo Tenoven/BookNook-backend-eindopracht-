@@ -14,7 +14,7 @@ public class ReviewDto {
     private String reviewer;
     private String reviewTitle;
     private List<CommentDto> comments;
-    private String book;
+    private String bookName;
     private String Text;
     private Byte Score;
 

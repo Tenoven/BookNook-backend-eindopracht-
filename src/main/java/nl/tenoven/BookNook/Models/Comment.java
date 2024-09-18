@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table(name = "Comments")
+@Table(name = "comments")
 @Entity
 public class Comment {
 

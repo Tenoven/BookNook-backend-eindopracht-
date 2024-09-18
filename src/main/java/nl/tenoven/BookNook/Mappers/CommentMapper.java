@@ -28,6 +28,7 @@ public class CommentMapper {
         Review review = new Review();
         review.setId(commentDto.getReviewId());
         comment.setReview(review);
+
         return comment;
     }
 

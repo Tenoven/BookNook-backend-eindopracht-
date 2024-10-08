@@ -89,4 +89,10 @@ public class AuthorController {
         AuthorDto dto = authorService.updateAuthor(id, newAuthor);
         return ResponseEntity.ok().body(dto);
     }
+
+    @PostMapping("/{id}/validate")
+    public ResponseEntity<AuthorDto> validateAuthor (@PathVariable Long id) {
+        AuthorDto dto = authorService.validateAuthor(id);
+        return ResponseEntity.ok().body(dto);
+    }
 }

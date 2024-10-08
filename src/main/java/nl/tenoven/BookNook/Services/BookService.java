@@ -89,7 +89,7 @@ public class BookService {
     public BookDto validateBook(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
-        book.setValidated(!book.isValidated());
+        book.setValidated(true);
         Book savedBook = bookRepository.save(book);
         return toBookDto(savedBook);
     }

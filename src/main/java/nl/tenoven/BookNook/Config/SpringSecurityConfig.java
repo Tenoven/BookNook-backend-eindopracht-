@@ -58,6 +58,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers(HttpMethod.GET, "/books/**", "/authors/**", "/comments/**", "/reviews/**", "/users/**").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/books/*/cover", "/authors/*/photo", "/users/*/picture").permitAll()
                                         .requestMatchers(HttpMethod.PUT, "/books/**", "/authors/**", "/comments/**", "/reviews/**").hasRole("USER")
+                                        .requestMatchers(HttpMethod.POST, "/authors/*/validate", "/books/*/validate").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/books", "/authors", "/comments", "/reviews").hasRole("USER")
                                         .requestMatchers(HttpMethod.POST, "/books/*/cover", "/authors/*/photo", "/users/*/picture").hasAnyRole("USER", "ADMIN" )

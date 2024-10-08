@@ -65,16 +65,6 @@ public class AuthorController {
                 .body(resource);
     }
 
-    @PostMapping
-    public ResponseEntity<AuthorDto> addAuthor(@Valid @RequestBody AuthorInputDto dto) {
-        AuthorDto authorDto = authorService.addAuthor(dto);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(authorDto.getId()).toUri();
-
-        return  ResponseEntity.created(location).body(authorDto);
-    }
-
     @PostMapping("/{id}/photo")
     public ResponseEntity<AuthorDto> addPhotoToAuthor(@PathVariable("id") Long authorId,
                                                      @RequestBody MultipartFile photo)

@@ -37,3 +37,14 @@ VALUES
     (3, 'Charlie Brown', 'This is one of my favorite series! Thanks for the review!', '2024-09-20', 1),
     (4, 'Diana Prince', 'I think this book could have been better. Not my cup of tea.', '2024-09-21', 7),
     (5, 'Ethan Hunt', 'I loved the characters and the plot twists!', '2024-09-22', 8);
+
+INSERT INTO users (username, password)
+VALUES
+    ('PietPrecies', '$2a$12$XsnFKXpNhG6YRgtZDiD.5uHoPg2L4N1dxjK2sGkcYD13sIiPhGBpK'),
+    ('Admin', '$2a$12$QJIYtGJpIZ0m6pAErvyh3OeLXMmYBf1UK7KREgseUDGRvcERXmEMS');
+
+INSERT INTO authorities (username, authority)
+VALUES
+    ('PietPrecies', 'ROLE_USER'),
+    ('Admin', 'ROLE_USER'),
+    ('Admin', 'ROLE_ADMIN');

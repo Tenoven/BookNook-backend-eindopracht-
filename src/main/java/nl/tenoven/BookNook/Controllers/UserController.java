@@ -1,7 +1,7 @@
 package nl.tenoven.BookNook.Controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import nl.tenoven.BookNook.Dtos.UserDtos.UserDto;
-import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Services.ImageService;
 import nl.tenoven.BookNook.Services.UserService;
 import nl.tenoven.BookNook.exceptions.BadRequestException;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -32,14 +32,6 @@ public class UserController {
         this.imageService = imageService;
     }
 
-
-    public ResponseEntity<List<UserDto>> getUsers() {
-
-        List<UserDto> userDtos = userService.getUsers();
-
-        return ResponseEntity.ok().body(userDtos);
-    }
-
     @GetMapping(value = "/{username}")
     public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
 
@@ -50,26 +42,26 @@ public class UserController {
 
     }
 
-//    @GetMapping(value = "/{username}/picture")
-//    public ResponseEntity<Resource> getPicture(@PathVariable("username") String username) {
-//        UserDto dto = userService.getUser(username);
-//        String filename = dto.getImage().getFileName();
-//        Resource resource = imageService.getImage(filename);
-//
-//        String mimeType;
-//
-//        try{
-//            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-//        } catch (IOException e) {
-//            mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-//        }
-//
-//        return ResponseEntity
-//                .ok()
-//                .contentType(MediaType.parseMediaType(mimeType))
-//                .header(HttpHeaders.CONTENT_DISPOSITION,"inline;fileNAme" + resource.getFilename())
-//                .body(resource);
-//    }
+    @GetMapping(value = "/{username}/picture")
+    public ResponseEntity<Resource> getPicture(@PathVariable("username") String username, HttpServletRequest request) {
+        UserDto dto = userService.getUser(username);
+        String filename = dto.getPicture().getFileName();
+        Resource resource = imageService.getImage(filename);
+
+        String mimeType;
+
+        try{
+            mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.parseMediaType(mimeType))
+                .header(HttpHeaders.CONTENT_DISPOSITION,"inline;fileNAme" + resource.getFilename())
+                .body(resource);
+    }
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {;
@@ -84,19 +76,19 @@ public class UserController {
     }
 
     @PostMapping("/{username}/picture")
-    public  ResponseEntity<UserDto> addPictureToUser(@RequestBody MultipartFile picture,
-                                                     @PathVariable("username") String username)
-        throws IOException {
-            String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/users")
-                    .path(Objects.requireNonNull(username))
-                    .path("picture")
-                    .toUriString();
-            String fileName = imageService.addImage(picture);
-            UserDto user = userService.assignPicturetoUser(fileName, username);
+    public  ResponseEntity<UserDto> addPictureToUser(@PathVariable("username") String username,
+                                                     @RequestBody MultipartFile picture)
+            throws IOException {
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/users/")
+                .path(Objects.requireNonNull(username))
+                .path("/picture")
+                .toUriString();
+        String fileName = imageService.addImage(picture);
+        UserDto user = userService.assignPicturetoUser(fileName, username);
 
-            return ResponseEntity.created(URI.create(url)).body(user);
-        }
+        return ResponseEntity.created(URI.create(url)).body(user);
+    }
 
     @PutMapping(value = "/{username}")
     public ResponseEntity<UserDto> updateKlant(@PathVariable("username") String username, @RequestBody UserDto dto) {

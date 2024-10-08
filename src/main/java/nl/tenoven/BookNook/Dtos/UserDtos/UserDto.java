@@ -12,7 +12,7 @@ import java.util.Set;
 public class UserDto {
     public String username;
     public String password;
-    public Image image;
+    public Image picture;
     public String apikey;
     public Set<Authority> authorities;
 }

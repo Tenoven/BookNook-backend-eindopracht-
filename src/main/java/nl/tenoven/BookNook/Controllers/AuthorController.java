@@ -1,9 +1,7 @@
 package nl.tenoven.BookNook.Controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
-import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
 import nl.tenoven.BookNook.Services.AuthorService;
 import nl.tenoven.BookNook.Services.ImageService;

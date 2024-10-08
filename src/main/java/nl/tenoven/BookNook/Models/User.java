@@ -21,7 +21,7 @@ public class User {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Image image;
+    private Image picture;
 
     @OneToMany(
             targetEntity = Authority.class,
@@ -38,4 +38,6 @@ public class User {
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
     }
+
+
 }

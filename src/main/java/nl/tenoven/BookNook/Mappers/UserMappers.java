@@ -11,6 +11,7 @@ public class UserMappers {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.authorities = user.getAuthorities();
+        dto.picture = user.getPicture();
 
         return dto;
     }

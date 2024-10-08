@@ -103,7 +103,7 @@ import static nl.tenoven.BookNook.Mappers.UserMappers.toUserDto;
             if (optionalUser.isPresent() && optionalImage.isPresent()) {
                 Image picture = optionalImage.get();
                 User user = optionalUser.get();
-                user.setImage(picture);
+                user.setPicture(picture);
                 User savedUser = userRepository.save(user);
                 return toUserDto(savedUser);
             } else {

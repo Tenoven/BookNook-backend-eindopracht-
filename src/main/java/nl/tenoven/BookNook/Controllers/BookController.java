@@ -102,4 +102,10 @@ public class BookController {
         BookDto dto = bookService.updateBook(id, newBook);
         return ResponseEntity.ok().body(dto);
     }
+
+    @PostMapping("/{id}/validate")
+    public ResponseEntity<BookDto> validateBook(@PathVariable Long id) {
+        BookDto dto = bookService.validateBook(id);
+        return ResponseEntity.ok().body(dto);
+    }
 }

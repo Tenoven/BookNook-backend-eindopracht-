@@ -79,10 +79,10 @@ public class AuthorService {
         return toAuthorDto(savedAuthor);
     }
 
-    public AuthorDto validateAthor(Long id) {
+    public AuthorDto validateAuthor(Long id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
-            author.setValidated(!author.isValidated());
+        author.setValidated(true);
         Author savedAuthor = authorRepository.save(author);
         return toAuthorDto(savedAuthor);
     }

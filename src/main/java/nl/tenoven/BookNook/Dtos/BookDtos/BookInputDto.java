@@ -17,7 +17,6 @@ import java.util.List;
 public class BookInputDto {
         @NotEmpty
         private String title;
-        @NotNull
         private Long authorId;
         @NotEmpty
         private String description;

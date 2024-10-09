@@ -16,7 +16,10 @@ public class BookMappers {
         BookDto dto = new BookDto();
         dto.setId(book.getId());
         dto.setTitle(book.getTitle());
+
+        if (book.getAuthor() != null) {
         dto.setAuthorName(book.getAuthor().getName());
+        }
         dto.setDescription(book.getDescription());
         dto.setAmountOfPages(book.getAmountOfPages());
         dto.setPrice(book.getPrice());

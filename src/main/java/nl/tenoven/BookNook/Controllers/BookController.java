@@ -103,7 +103,7 @@ public class BookController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PostMapping("/{id}/validate")
+    @PutMapping("/{id}/validate")
     public ResponseEntity<BookDto> validateBook(@PathVariable Long id) {
         BookDto dto = bookService.validateBook(id);
         return ResponseEntity.ok().body(dto);

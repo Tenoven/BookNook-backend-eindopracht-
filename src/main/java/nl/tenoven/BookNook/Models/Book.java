@@ -20,7 +20,6 @@ public class Book {
     private Long id;
     @NotEmpty
     private String title;
-    @NotNull
     @ManyToOne
     private Author author;
     @NotEmpty

@@ -19,11 +19,6 @@ public class AuthorInputDto {
     private List<Book> books;
     private Image photo;
 
-    public AuthorInputDto(String name, String dateOfBirth, String description, boolean validated, List<Book> books, Image photo) {
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.description = description;
-        this.books = books;
-        this.photo = photo;
+    public AuthorInputDto() {
     }
 }

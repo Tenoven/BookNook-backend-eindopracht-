@@ -1,7 +1,9 @@
 package nl.tenoven.BookNook.Controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
 import nl.tenoven.BookNook.Services.AuthorService;
 import nl.tenoven.BookNook.Services.ImageService;
@@ -63,6 +65,16 @@ public class AuthorController {
                 .body(resource);
     }
 
+    @PostMapping
+    public ResponseEntity<AuthorDto> addAuthor(@Valid @RequestBody AuthorInputDto dto) {
+        AuthorDto authorDto = authorService.addAuthor(dto);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(authorDto.getId()).toUri();
+
+        return ResponseEntity.created(location).body(authorDto);
+    }
+
     @PostMapping("/{id}/photo")
     public ResponseEntity<AuthorDto> addPhotoToAuthor(@PathVariable("id") Long authorId,
                                                      @RequestBody MultipartFile photo)
@@ -90,7 +102,7 @@ public class AuthorController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PostMapping("/{id}/validate")
+    @PutMapping("/{id}/validate")
     public ResponseEntity<AuthorDto> validateAuthor (@PathVariable Long id) {
         AuthorDto dto = authorService.validateAuthor(id);
         return ResponseEntity.ok().body(dto);

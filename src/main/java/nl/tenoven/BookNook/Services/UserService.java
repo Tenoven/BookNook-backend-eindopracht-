@@ -29,16 +29,6 @@ import static nl.tenoven.BookNook.Mappers.UserMappers.toUserDto;
             this.imageRepository = imageRepository;
         }
 
-
-        public List<UserDto> getUsers() {
-            List<UserDto> collection = new ArrayList<>();
-            List<User> list = userRepository.findAll();
-            for (User user : list) {
-                collection.add(toUserDto(user));
-            }
-            return collection;
-        }
-
         public UserDto getUser(String username) {
             UserDto dto = new UserDto();
             Optional<User> user = userRepository.findById(username);
@@ -50,9 +40,6 @@ import static nl.tenoven.BookNook.Mappers.UserMappers.toUserDto;
             return dto;
         }
 
-        public boolean userExists(String username) {
-            return userRepository.existsById(username);
-        }
 
         public String createUser(UserDto userDto) {
             String randomString = RandomStingGenerator.generateAlphaNumeric(20);

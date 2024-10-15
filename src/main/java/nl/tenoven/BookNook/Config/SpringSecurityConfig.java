@@ -56,7 +56,6 @@ public class SpringSecurityConfig {
                                         .requestMatchers(HttpMethod.GET, "/books", "/authors", "/reviews/*/comments", "/reviews").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/books/{id}", "/authors/{id}", "/reviews/{id}/comments/{id}", "/reviews/{id}", "/users/{username}").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/books/{id}/cover", "/authors/{id}/photo", "/users/{username}/picture").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/users/{username}/authorities").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/authenticated").hasAnyRole ("USER", "ADMIN")
                                         .requestMatchers(HttpMethod.PUT, "/authors/{id}/validate", "/books/{id}/validate").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.PUT, "/books/{id}", "/authors/{id}", "/reviews/{id}/comments/{id}", "/reviews/{id}", "/users/{username}").hasAnyRole ("USER", "ADMIN")

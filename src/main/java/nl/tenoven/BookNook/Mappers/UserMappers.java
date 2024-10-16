@@ -4,7 +4,7 @@ import nl.tenoven.BookNook.Dtos.UserDtos.UserDto;
 import nl.tenoven.BookNook.Models.User;
 
 public class UserMappers {
-    public static UserDto toUserDto(User user){
+    public static UserDto toUserDto(User user) {
 
         var dto = new UserDto();
 

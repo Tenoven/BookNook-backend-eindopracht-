@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentInputDto;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPutDto;
-import nl.tenoven.BookNook.Models.Review;
 import nl.tenoven.BookNook.Services.CommentService;
 import nl.tenoven.BookNook.Services.ReviewService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class CommentController {
     private final CommentService commentService;
     private final ReviewService reviewService;
 
-    public CommentController(CommentService commentService, ReviewService reviewService){
+    public CommentController(CommentService commentService, ReviewService reviewService) {
         this.commentService = commentService;
         this.reviewService = reviewService;
     }
@@ -36,16 +35,15 @@ public class CommentController {
     public ResponseEntity<CommentDto> addComment(@Valid @RequestBody CommentInputDto dto) {
         CommentDto commentDto = commentService.addComment(dto);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(commentDto.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(commentDto.getId()).toUri();
 
         return ResponseEntity.created(location).body(commentDto);
     }
 
     @DeleteMapping("/{commentId}")
-    public  ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
-        return  ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{commentId}")

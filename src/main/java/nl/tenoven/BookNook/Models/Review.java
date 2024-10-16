@@ -20,7 +20,6 @@ public class Review {
     private String reviewer;
     private String reviewTitle;
 
-
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 

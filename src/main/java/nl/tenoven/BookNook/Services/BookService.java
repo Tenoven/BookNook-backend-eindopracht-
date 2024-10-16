@@ -1,7 +1,6 @@
 package nl.tenoven.BookNook.Services;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
@@ -17,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static nl.tenoven.BookNook.Mappers.BookMappers.toBookDto;
 import static nl.tenoven.BookNook.Mappers.BookMappers.toBook;
+import static nl.tenoven.BookNook.Mappers.BookMappers.toBookDto;
 
 
 @Service
@@ -34,18 +33,17 @@ public class BookService {
 
     public List<BookDto> getBooks() {
 
-       List<Book> books = bookRepository.findAll();
-       List<BookDto> bookDtos = new ArrayList<>();
+        List<Book> books = bookRepository.findAll();
+        List<BookDto> bookDtos = new ArrayList<>();
 
-        for (Book book: books) {
+        for (Book book : books) {
             bookDtos.add(toBookDto(book));
         }
         return bookDtos;
     }
 
     public BookDto getBook(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Book " + id + " not found"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book " + id + " not found"));
         return toBookDto(book);
     }
 
@@ -56,8 +54,7 @@ public class BookService {
     }
 
     public BookDto updateBook(Long id, BookPutDto updatedBook) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book" + id + "not found"));
 
         if (updatedBook.getTitle() != null) {
             book.setTitle(updatedBook.getTitle());
@@ -82,14 +79,12 @@ public class BookService {
 
         book.setValidated(false);
 
-
-        Book savedBook= bookRepository.save(book);
+        Book savedBook = bookRepository.save(book);
         return toBookDto(savedBook);
     }
 
     public BookDto validateBook(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Book" + id + "not found"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book" + id + "not found"));
         book.setValidated(true);
         Book savedBook = bookRepository.save(book);
         return toBookDto(savedBook);
@@ -108,7 +103,7 @@ public class BookService {
 
         if (optionalBook.isPresent() && optionalCover.isPresent()) {
             Image cover = optionalCover.get();
-            Book book  = optionalBook.get();
+            Book book = optionalBook.get();
             book.setCover(cover);
             Book savedBook = bookRepository.save(book);
             return toBookDto(savedBook);

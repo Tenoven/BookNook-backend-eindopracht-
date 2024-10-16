@@ -3,7 +3,6 @@ package nl.tenoven.BookNook.Mappers;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
 import nl.tenoven.BookNook.Models.Author;
-import nl.tenoven.BookNook.Models.Book;
 
 public class AuthorMappers {
     public static AuthorDto toAuthorDto(Author author) {

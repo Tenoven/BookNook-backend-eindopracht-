@@ -2,7 +2,6 @@ package nl.tenoven.BookNook.Controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
@@ -28,7 +27,7 @@ public class BookController {
     private final BookService bookService;
     private final ImageService imageService;
 
-    public BookController(BookService bookService, ImageService imageService){
+    public BookController(BookService bookService, ImageService imageService) {
         this.bookService = bookService;
         this.imageService = imageService;
     }
@@ -40,7 +39,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getBook(@PathVariable("id")Long id) {
+    public ResponseEntity<BookDto> getBook(@PathVariable("id") Long id) {
         BookDto book = bookService.getBook(id);
         return ResponseEntity.ok().body(book);
     }
@@ -53,38 +52,27 @@ public class BookController {
 
         String mimeType;
 
-        try{
+        try {
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
             mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.parseMediaType(mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
-                .body(resource);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType)).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
     }
 
     @PostMapping
     public ResponseEntity<BookDto> addBook(@Valid @RequestBody BookInputDto dto) {
         BookDto bookDto = bookService.addBook(dto);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(bookDto.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookDto.getId()).toUri();
 
         return ResponseEntity.created(location).body(bookDto);
     }
 
     @PostMapping("/{id}/cover")
-    public ResponseEntity<BookDto> addCoverToBook(@PathVariable("id") Long bookId,
-                                                      @RequestBody MultipartFile cover)
-            throws IOException {
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/books/")
-                .path(Objects.requireNonNull(bookId.toString()))
-                .path("/cover")
-                .toUriString();
+    public ResponseEntity<BookDto> addCoverToBook(@PathVariable("id") Long bookId, @RequestBody MultipartFile cover) throws IOException {
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/books/").path(Objects.requireNonNull(bookId.toString())).path("/cover").toUriString();
         String fileName = imageService.addImage(cover);
         BookDto book = bookService.assignCoverToBook(fileName, bookId);
 
@@ -98,7 +86,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable Long id,@RequestBody BookPutDto newBook ) {
+    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody BookPutDto newBook) {
         BookDto dto = bookService.updateBook(id, newBook);
         return ResponseEntity.ok().body(dto);
     }

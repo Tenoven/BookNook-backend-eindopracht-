@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Dtos.ReviewDtos.ReviewDto;
 import nl.tenoven.BookNook.Models.Image;
-import nl.tenoven.BookNook.Models.Review;
 
 import java.util.List;
 
@@ -24,5 +23,5 @@ public class BookDto {
 
     public BookDto() {
     }
-    
+
 }

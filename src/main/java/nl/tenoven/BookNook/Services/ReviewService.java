@@ -16,7 +16,7 @@ import static nl.tenoven.BookNook.Mappers.ReviewMappers.toReviewDto;
 
 @Service
 public class ReviewService {
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
     public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
@@ -26,15 +26,14 @@ public class ReviewService {
         List<Review> reviews = reviewRepository.findAll();
         List<ReviewDto> dtos = new ArrayList<>();
 
-        for (Review review: reviews) {
+        for (Review review : reviews) {
             dtos.add(toReviewDto(review));
         }
         return dtos;
     }
 
     public ReviewDto getReview(Long id) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review" + id + "not found"));
         return toReviewDto(review);
     }
 
@@ -44,8 +43,7 @@ public class ReviewService {
     }
 
     public ReviewDto updateReview(Long id, ReviewPutDto updatedReview) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Review" + id + "not found"));
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review" + id + "not found"));
 
         if (updatedReview.getText() != null) {
             review.setText(updatedReview.getText());
@@ -54,7 +52,7 @@ public class ReviewService {
             review.setScore(updatedReview.getScore());
         }
 
-        Review savedReview= reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
         return toReviewDto(savedReview);
     }
 

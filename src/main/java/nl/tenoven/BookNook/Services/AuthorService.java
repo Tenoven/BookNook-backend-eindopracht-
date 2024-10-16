@@ -27,7 +27,7 @@ public class AuthorService {
     private final ImageRepository imageRepository;
 
 
-    public AuthorService(AuthorRepository authorRepository, ImageRepository imageRepository){
+    public AuthorService(AuthorRepository authorRepository, ImageRepository imageRepository) {
         this.authorRepository = authorRepository;
         this.imageRepository = imageRepository;
     }
@@ -36,15 +36,14 @@ public class AuthorService {
         List<Author> authors = authorRepository.findAll();
         List<AuthorDto> authorDtos = new ArrayList<>();
 
-        for (Author author: authors) {
+        for (Author author : authors) {
             authorDtos.add(toAuthorDto(author));
         }
         return authorDtos;
     }
 
     public AuthorDto getAuthor(Long id) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Author" + id + "not found"));
         return toAuthorDto(author);
     }
 
@@ -56,19 +55,18 @@ public class AuthorService {
     }
 
     public AuthorDto updateAuthor(Long id, AuthorPutDto updatedAuthor) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Author" + id + "not found"));
 
-        if(updatedAuthor.getName() != null ) {
+        if (updatedAuthor.getName() != null) {
             author.setName(updatedAuthor.getName());
         }
-        if(updatedAuthor.getDescription() != null ) {
+        if (updatedAuthor.getDescription() != null) {
             author.setDescription(updatedAuthor.getDescription());
         }
-        if(updatedAuthor.getPhoto() != null ) {
+        if (updatedAuthor.getPhoto() != null) {
             author.setPhoto(updatedAuthor.getPhoto());
         }
-        if(updatedAuthor.getDateOfBirth() != null ) {
+        if (updatedAuthor.getDateOfBirth() != null) {
             author.setDateOfBirth(updatedAuthor.getDateOfBirth());
         }
 
@@ -80,8 +78,7 @@ public class AuthorService {
     }
 
     public AuthorDto validateAuthor(Long id) {
-        Author author = authorRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Author" + id + "not found"));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Author" + id + "not found"));
         author.setValidated(true);
         Author savedAuthor = authorRepository.save(author);
         return toAuthorDto(savedAuthor);

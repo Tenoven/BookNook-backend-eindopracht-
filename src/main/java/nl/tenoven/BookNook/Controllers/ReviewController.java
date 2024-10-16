@@ -18,8 +18,9 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    public ReviewController(ReviewService reviewService)
-    {this.reviewService = reviewService;}
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ReviewDto>> getReviews() {
@@ -37,20 +38,19 @@ public class ReviewController {
     public ResponseEntity<ReviewDto> addReview(@Valid @RequestBody ReviewInputDto dto) {
         ReviewDto reviewDto = reviewService.addReview(dto);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(reviewDto.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(reviewDto.getId()).toUri();
 
         return ResponseEntity.created(location).body(reviewDto);
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<ReviewDto> updateReview(@PathVariable Long id, @RequestBody ReviewPutDto newReview) {
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable Long id, @RequestBody ReviewPutDto newReview) {
         ReviewDto dto = reviewService.updateReview(id, newReview);
         return ResponseEntity.ok().body(dto);
     }

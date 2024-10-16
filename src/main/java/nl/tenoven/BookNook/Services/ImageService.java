@@ -1,28 +1,24 @@
 package nl.tenoven.BookNook.Services;
 
-import jakarta.persistence.EntityNotFoundException;
-import nl.tenoven.BookNook.Dtos.ImageDtos.ImageDto;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
-
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Objects;
 
 
 @Service
 public class ImageService {
     private final Path fileStoragePath;
-    private final  String fileStorageLocation;
+    private final String fileStorageLocation;
     private final ImageRepository imageRepository;
 
     public ImageService(@Value("${my.upload_location}") String fileStorageLocation, ImageRepository imageRepository) throws IOException {
@@ -32,10 +28,10 @@ public class ImageService {
         Files.createDirectories(fileStoragePath);
     }
 
-    public String addImage(MultipartFile file) throws IOException{
+    public String addImage(MultipartFile file) throws IOException {
 
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        Path filePath = Paths.get(fileStoragePath + FileSystems.getDefault().getSeparator() + fileName );
+        Path filePath = Paths.get(fileStoragePath + FileSystems.getDefault().getSeparator() + fileName);
 
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -55,7 +51,7 @@ public class ImageService {
             throw new RuntimeException("Issue in reading the file", e);
         }
 
-        if(resource.exists()&& resource.isReadable()) {
+        if (resource.exists() && resource.isReadable()) {
             return resource;
         } else {
             throw new RuntimeException("the file doesn't exist or not readable");

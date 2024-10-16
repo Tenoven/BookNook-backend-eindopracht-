@@ -1,7 +1,5 @@
 package nl.tenoven.BookNook.Dtos.BookDtos;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Models.Image;

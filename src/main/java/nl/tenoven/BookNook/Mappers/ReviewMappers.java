@@ -10,7 +10,7 @@ public class ReviewMappers {
         ReviewDto dto = new ReviewDto();
         dto.setId(review.getId());
         dto.setReviewer(review.getReviewer());
-        if (review.getComments() != null){
+        if (review.getComments() != null) {
             dto.setComments(review.getComments().stream().map(CommentMapper::toCommentDto).toList());
         }
         dto.setReviewTitle(review.getReviewTitle());

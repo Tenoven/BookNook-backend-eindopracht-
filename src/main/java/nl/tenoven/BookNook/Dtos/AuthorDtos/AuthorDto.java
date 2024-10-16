@@ -3,7 +3,6 @@ package nl.tenoven.BookNook.Dtos.AuthorDtos;
 import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
-import nl.tenoven.BookNook.Models.Book;
 import nl.tenoven.BookNook.Models.Image;
 
 import java.util.List;

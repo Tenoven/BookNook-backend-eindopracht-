@@ -45,45 +45,34 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}/photo")
-    public ResponseEntity<Resource> getAuthorPhoto(@PathVariable("id") Long authorId, HttpServletRequest request){
+    public ResponseEntity<Resource> getAuthorPhoto(@PathVariable("id") Long authorId, HttpServletRequest request) {
         AuthorDto dto = authorService.getAuthor(authorId);
         String fileName = dto.getPhoto().getFileName();
         Resource resource = imageService.getImage(fileName);
 
         String mimeType;
 
-        try{
+        try {
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
             mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.parseMediaType(mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
-                .body(resource);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType)).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
     }
 
     @PostMapping
     public ResponseEntity<AuthorDto> addAuthor(@Valid @RequestBody AuthorInputDto dto) {
         AuthorDto authorDto = authorService.addAuthor(dto);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(authorDto.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(authorDto.getId()).toUri();
 
         return ResponseEntity.created(location).body(authorDto);
     }
 
     @PostMapping("/{id}/photo")
-    public ResponseEntity<AuthorDto> addPhotoToAuthor(@PathVariable("id") Long authorId,
-                                                     @RequestBody MultipartFile photo)
-            throws IOException {
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/authors/")
-                .path(Objects.requireNonNull(authorId.toString()))
-                .path("/photo")
-                .toUriString();
+    public ResponseEntity<AuthorDto> addPhotoToAuthor(@PathVariable("id") Long authorId, @RequestBody MultipartFile photo) throws IOException {
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/authors/").path(Objects.requireNonNull(authorId.toString())).path("/photo").toUriString();
         String fileName = imageService.addImage(photo);
         AuthorDto author = authorService.assignPhotoToAuthor(fileName, authorId);
 
@@ -97,13 +86,13 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorDto> updateAuthor (@PathVariable Long id, @RequestBody AuthorPutDto newAuthor) {
+    public ResponseEntity<AuthorDto> updateAuthor(@PathVariable Long id, @RequestBody AuthorPutDto newAuthor) {
         AuthorDto dto = authorService.updateAuthor(id, newAuthor);
         return ResponseEntity.ok().body(dto);
     }
 
     @PutMapping("/{id}/validate")
-    public ResponseEntity<AuthorDto> validateAuthor (@PathVariable Long id) {
+    public ResponseEntity<AuthorDto> validateAuthor(@PathVariable Long id) {
         AuthorDto dto = authorService.validateAuthor(id);
         return ResponseEntity.ok().body(dto);
     }

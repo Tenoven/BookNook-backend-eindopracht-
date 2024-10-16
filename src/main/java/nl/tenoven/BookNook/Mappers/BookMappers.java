@@ -4,11 +4,7 @@ import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
-import nl.tenoven.BookNook.Services.BookService;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class BookMappers {
@@ -18,7 +14,7 @@ public class BookMappers {
         dto.setTitle(book.getTitle());
 
         if (book.getAuthor() != null) {
-        dto.setAuthorName(book.getAuthor().getName());
+            dto.setAuthorName(book.getAuthor().getName());
         }
         dto.setDescription(book.getDescription());
         dto.setAmountOfPages(book.getAmountOfPages());

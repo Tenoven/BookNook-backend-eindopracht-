@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -50,40 +49,29 @@ public class UserController {
 
         String mimeType;
 
-        try{
+        try {
             mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
             mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.parseMediaType(mimeType))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"inline;fileNAme" + resource.getFilename())
-                .body(resource);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType)).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileNAme" + resource.getFilename()).body(resource);
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {;
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
 
         String newUsername = userService.createUser(dto);
         userService.addAuthority(newUsername, "ROLE_USER");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}").buildAndExpand(newUsername).toUri();
 
         return ResponseEntity.created(location).build();
     }
 
     @PostMapping("/{username}/picture")
-    public  ResponseEntity<UserDto> addPictureToUser(@PathVariable("username") String username,
-                                                     @RequestBody MultipartFile picture)
-            throws IOException {
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/users/")
-                .path(Objects.requireNonNull(username))
-                .path("/picture")
-                .toUriString();
+    public ResponseEntity<UserDto> addPictureToUser(@PathVariable("username") String username, @RequestBody MultipartFile picture) throws IOException {
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/").path(Objects.requireNonNull(username)).path("/picture").toUriString();
         String fileName = imageService.addImage(picture);
         UserDto user = userService.assignPicturetoUser(fileName, username);
 
@@ -115,8 +103,7 @@ public class UserController {
             String authorityName = (String) fields.get("authority");
             userService.addAuthority(username, authorityName);
             return ResponseEntity.noContent().build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new BadRequestException();
         }
     }

@@ -2,7 +2,6 @@ package nl.tenoven.BookNook.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,8 +37,6 @@ public class Book {
 
     public Book() {
     }
-
-
 
 
 }

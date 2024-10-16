@@ -23,12 +23,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Image picture;
 
-    @OneToMany(
-            targetEntity = Authority.class,
-            mappedBy = "username",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Authority.class, mappedBy = "username", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
     public void addAuthority(Authority authority) {

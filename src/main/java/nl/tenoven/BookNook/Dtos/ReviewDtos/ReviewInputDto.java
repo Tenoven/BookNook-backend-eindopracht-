@@ -1,9 +1,6 @@
 package nl.tenoven.BookNook.Dtos.ReviewDtos;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Models.Comment;
@@ -19,9 +16,8 @@ public class ReviewInputDto {
     @NotEmpty
     private String reviewTitle;
 
-    private List<Comment> comments;
-
-    @NotEmpty
+    @NotNull
+    @Positive
     private Long bookId;
 
     @NotEmpty

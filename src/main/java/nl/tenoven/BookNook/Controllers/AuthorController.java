@@ -79,6 +79,11 @@ public class AuthorController {
         return ResponseEntity.created(URI.create(url)).body(author);
     }
 
+    @PostMapping("/{authorId}/book/{bookId}")
+    public ResponseEntity<AuthorDto> assignBookToAuthor(@PathVariable("authorId") Long authorId, @PathVariable("bookId") Long bookId ){
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         authorService.deleteAuthor(id);

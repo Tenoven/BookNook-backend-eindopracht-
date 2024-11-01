@@ -21,7 +21,6 @@ public class BookInputDto {
 
     @Positive(message = "Price must be higher then 0")
     private Float price;
-    private List<Review> reviews;
     private Image cover;
 
 }

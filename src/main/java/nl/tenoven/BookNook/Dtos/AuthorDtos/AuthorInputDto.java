@@ -16,7 +16,6 @@ public class AuthorInputDto {
     private String dateOfBirth;
     @NotEmpty
     private String description;
-    private List<Book> books;
     private Image photo;
 
     public AuthorInputDto() {

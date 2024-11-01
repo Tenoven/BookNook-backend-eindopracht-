@@ -5,7 +5,6 @@ import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentInputDto;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPutDto;
 import nl.tenoven.BookNook.Services.CommentService;
-import nl.tenoven.BookNook.Services.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,11 +17,9 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ReviewService reviewService;
 
-    public CommentController(CommentService commentService, ReviewService reviewService) {
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
-        this.reviewService = reviewService;
     }
 
     @GetMapping

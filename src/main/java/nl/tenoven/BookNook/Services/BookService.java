@@ -7,6 +7,7 @@ import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
 import nl.tenoven.BookNook.Models.Image;
+import nl.tenoven.BookNook.Repositories.AuthorRepository;
 import nl.tenoven.BookNook.Repositories.BookRepository;
 import nl.tenoven.BookNook.Repositories.ImageRepository;
 import nl.tenoven.BookNook.exceptions.RecordNotFoundException;
@@ -25,11 +26,14 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final ImageRepository imageRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookService(BookRepository bookRepository, ImageRepository imageRepository) {
+    public BookService(BookRepository bookRepository, ImageRepository imageRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.imageRepository = imageRepository;
+        this.authorRepository = authorRepository;
     }
+
 
     public List<BookDto> getBooks() {
 
@@ -51,6 +55,24 @@ public class BookService {
         Book savedBook = toBook(newBook);
         Book book = bookRepository.save(savedBook);
         return toBookDto(book);
+    }
+
+    public BookDto addAuthorToBook(Long bookId, Long authorId) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        Optional<Author> optionalAuthor = authorRepository.findById(authorId);
+
+        if (optionalBook.isEmpty() || optionalAuthor.isEmpty()) {
+            throw new RecordNotFoundException("Book or Author not found.");
+        }
+
+        Book book = optionalBook.get();
+        Author author = optionalAuthor.get();
+
+        book.setAuthor(author);
+
+        Book updatedBook = bookRepository.save(book);
+
+        return toBookDto(updatedBook);
     }
 
     public BookDto updateBook(Long id, BookPutDto updatedBook) {

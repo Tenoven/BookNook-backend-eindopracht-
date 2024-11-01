@@ -33,11 +33,12 @@ public class BookMappers {
 
         book.setTitle(bookDto.getTitle());
 
+        if (bookDto.getAuthorId() != null) {
         Author author = new Author();
         author.setId(bookDto.getAuthorId());
         book.setAuthor(author);
+        }
 
-        book.setReviews(bookDto.getReviews());
         book.setDescription(bookDto.getDescription());
         book.setPrice(bookDto.getPrice());
         book.setCover(bookDto.getCover());

@@ -27,7 +27,6 @@ public class AuthorMappers {
         author.setPhoto(dto.getPhoto());
         author.setDateOfBirth(dto.getDateOfBirth());
         author.setValidated(false);
-        author.setBooks(dto.getBooks());
 
         return author;
     }

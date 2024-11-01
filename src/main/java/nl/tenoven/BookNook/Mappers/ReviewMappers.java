@@ -25,7 +25,6 @@ public class ReviewMappers {
         Review review = new Review();
         review.setReviewer(reviewDto.getReviewer());
         review.setReviewTitle(reviewDto.getReviewTitle());
-        review.setComments(reviewDto.getComments());
 
         Book book = new Book();
         book.setId(reviewDto.getBookId());

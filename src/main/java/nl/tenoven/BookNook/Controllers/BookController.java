@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
+import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Services.BookService;
 import nl.tenoven.BookNook.Services.ImageService;
 import org.springframework.core.io.Resource;
@@ -77,6 +78,14 @@ public class BookController {
         BookDto book = bookService.assignCoverToBook(fileName, bookId);
 
         return ResponseEntity.created(URI.create(url)).body(book);
+    }
+
+    @PostMapping("/{bookId}/addAuthor/{authorId}")
+    public ResponseEntity<BookDto> addAuthorToBook(@PathVariable("bookId") Long bookId, @PathVariable("authorId") Long authorID) {
+
+        BookDto book = bookService.addAuthorToBook(bookId, authorID);
+
+        return ResponseEntity.ok().body(book);
     }
 
     @DeleteMapping("/{id}")

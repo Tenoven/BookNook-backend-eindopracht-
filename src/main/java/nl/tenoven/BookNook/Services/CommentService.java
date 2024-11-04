@@ -7,11 +7,15 @@ import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPutDto;
 import nl.tenoven.BookNook.Mappers.CommentMapper;
 import nl.tenoven.BookNook.Models.Comment;
 import nl.tenoven.BookNook.Models.Review;
+import nl.tenoven.BookNook.Models.User;
 import nl.tenoven.BookNook.Repositories.CommentRepository;
 import nl.tenoven.BookNook.Repositories.ReviewRepository;
+import nl.tenoven.BookNook.Repositories.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static nl.tenoven.BookNook.Mappers.CommentMapper.toComment;
 import static nl.tenoven.BookNook.Mappers.CommentMapper.toCommentDto;
@@ -21,10 +25,12 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
-    public CommentService(CommentRepository commentRepository, ReviewRepository reviewRepository) {
+    public CommentService(CommentRepository commentRepository, ReviewRepository reviewRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
     }
 
     public List<CommentDto> getCommentsByReviewId(Long reviewId) {
@@ -35,17 +41,18 @@ public class CommentService {
         return commentDtos;
     }
 
-    public CommentDto addComment(CommentInputDto newComment) {
+    public CommentDto addComment(CommentInputDto newComment, UserDetails userDetails) {
         Comment savedComment = commentRepository.save(toComment(newComment));
+        Optional<User> u = userRepository.findById(userDetails.getUsername());
+        if(u.isPresent()){
+            savedComment.setUser(u.get());
+        }
         return toCommentDto(savedComment);
     }
 
     public CommentDto updateComment(Long id, CommentPutDto updatedComment) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Comment" + id + "not found"));
 
-        if (updatedComment.getCommenter() != null) {
-            comment.setCommenter(updatedComment.getCommenter());
-        }
         if (updatedComment.getMessage() != null) {
             comment.setMessage(updatedComment.getMessage());
         }

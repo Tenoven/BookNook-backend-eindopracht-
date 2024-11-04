@@ -10,14 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 public class ReviewInputDto {
-    @NotEmpty
-    private String reviewer;
 
     @NotEmpty
     private String reviewTitle;
 
-    @NotNull
-    @Positive
     private Long bookId;
 
     @NotEmpty

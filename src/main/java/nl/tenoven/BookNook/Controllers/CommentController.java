@@ -6,6 +6,8 @@ import nl.tenoven.BookNook.Dtos.CommentDtos.CommentInputDto;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPutDto;
 import nl.tenoven.BookNook.Services.CommentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,8 +31,8 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<CommentDto> addComment(@Valid @RequestBody CommentInputDto dto) {
-        CommentDto commentDto = commentService.addComment(dto);
+    public ResponseEntity<CommentDto> addComment(@Valid @RequestBody CommentInputDto dto, @AuthenticationPrincipal UserDetails userDetails) {
+        CommentDto commentDto = commentService.addComment(dto, userDetails);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(commentDto.getId()).toUri();
 

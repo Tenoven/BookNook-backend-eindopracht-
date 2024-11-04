@@ -10,7 +10,9 @@ public class CommentMapper {
     public static CommentDto toCommentDto(Comment comment) {
         CommentDto dto = new CommentDto();
         dto.setId(comment.getId());
-        dto.setCommenter(comment.getCommenter());
+        if (comment.getUser() != null){
+            dto.setCommenter(comment.getUser().getUsername());
+        }
         dto.setMessage(comment.getMessage());
         dto.setDatePosted(comment.getDatePosted());
         dto.setReviewId(comment.getReview().getId());
@@ -21,7 +23,6 @@ public class CommentMapper {
 
     public static Comment toComment(CommentInputDto commentDto) {
         Comment comment = new Comment();
-        comment.setCommenter(commentDto.getCommenter());
         comment.setMessage(commentDto.getMessage());
         comment.setDatePosted(commentDto.getDatePosted());
 

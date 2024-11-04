@@ -19,29 +19,31 @@ VALUES
 ('Artemis Fowl: The Eternity Code', 3, 'The third book in the Artemis Fowl series.', 320, 12.99, true),
 ('Artemis Fowl: The Opal Deception', 3, 'The fourth book in the Artemis Fowl series.', 342, 12.99, true);
 
-INSERT INTO reviews (reviewer, review_title, book_id, text, score)
-VALUES
-    ('Alice Johnson', 'Magical Start!', 1, 'This book is a wonderful introduction to a magical world. I could not put it down!', 5),
-    ('Mark Smith', 'A Great Sequel', 2, 'A fantastic follow-up with more twists and excitement than the first!', 4),
-    ('Sarah Lee', 'A Dark Turn', 3, 'The story takes a darker turn, but it’s brilliantly written. A must-read!', 5),
-    ('Tom Brown', 'Epic Adventure', 4, 'An epic journey full of adventure and magic. Highly recommend!', 5),
-    ('Emma Wilson', 'A Classic Tale', 5, 'A gripping start to a classic series. I was hooked from the first page!', 4),
-    ('James Taylor', 'Intense and Engaging', 6, 'The plot thickens in this sequel! It’s intense and hard to put down.', 5),
-    ('Olivia Martin', 'Not My Favorite', 9, 'While I loved the concept, it didn’t capture my interest as much as I hoped.', 3),
-    ('David Thompson', 'Fantastic Series!', 10, 'An exciting continuation of Artemis’s adventures. Can’t wait for more!', 4);
-
-INSERT INTO comments (commenter, message, date_posted, review_id)
-VALUES
-    ('Alice Johnson', 'I totally agree with this review! The book was amazing!', '2024-09-18', 1),
-    ('Bob Smith', 'I found some parts a bit slow, but overall a great read.', '2024-09-19', 1),
-    ('Charlie Brown', 'This is one of my favorite series! Thanks for the review!', '2024-09-20', 1),
-    ('Diana Prince', 'I think this book could have been better. Not my cup of tea.', '2024-09-21', 7),
-    ('Ethan Hunt', 'I loved the characters and the plot twists!', '2024-09-22', 8);
-
 INSERT INTO users (username, password)
 VALUES
     ('PietPrecies', '$2a$12$XsnFKXpNhG6YRgtZDiD.5uHoPg2L4N1dxjK2sGkcYD13sIiPhGBpK'),
     ('Admin', '$2a$12$QJIYtGJpIZ0m6pAErvyh3OeLXMmYBf1UK7KREgseUDGRvcERXmEMS');
+
+INSERT INTO reviews ( review_title, book_id, text, score, user_username)
+VALUES
+    ('Magical Start!', 1, 'This book is a wonderful introduction to a magical world. I could not put it down!', 5,'PietPrecies'),
+    ('A Great Sequel', 2, 'A fantastic follow-up with more twists and excitement than the first!', 4,'PietPrecies'),
+    ('A Dark Turn', 3, 'The story takes a darker turn, but it’s brilliantly written. A must-read!', 5,'PietPrecies'),
+    ('Epic Adventure', 4, 'An epic journey full of adventure and magic. Highly recommend!', 5,'PietPrecies'),
+    ('A Classic Tale', 5, 'A gripping start to a classic series. I was hooked from the first page!', 4,'PietPrecies'),
+    ('Intense and Engaging', 6, 'The plot thickens in this sequel! It’s intense and hard to put down.', 5,'PietPrecies'),
+    ('Not My Favorite', 9, 'While I loved the concept, it didn’t capture my interest as much as I hoped.', 3,'PietPrecies'),
+    ('Fantastic Series!', 10, 'An exciting continuation of Artemis’s adventures. Can’t wait for more!', 4,'PietPrecies');
+
+INSERT INTO comments ( message, date_posted, review_id, user_username)
+VALUES
+    ( 'I totally agree with this review! The book was amazing!', '2024-09-18', 1,'Admin'),
+    ('I found some parts a bit slow, but overall a great read.', '2024-09-19', 1,'Admin'),
+    ('This is one of my favorite series! Thanks for the review!', '2024-09-20', 1,'Admin'),
+    ('I think this book could have been better. Not my cup of tea.', '2024-09-21', 7,'Admin'),
+    ('I loved the characters and the plot twists!', '2024-09-22', 8,'Admin');
+
+
 
 INSERT INTO authorities (username, authority)
 VALUES

@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 public class CommentInputDto {
     @NotEmpty
-    private String commenter;
-    @NotEmpty
     private String message;
     @NotEmpty
     private String datePosted;

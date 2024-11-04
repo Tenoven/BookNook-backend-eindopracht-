@@ -39,6 +39,12 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
+    @GetMapping("/unvalidated")
+    public ResponseEntity<List<BookDto>> getFalseBooks() {
+        List<BookDto> books = bookService.getFalseBooks();
+        return ResponseEntity.ok(books);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> getBook(@PathVariable("id") Long id) {
         BookDto book = bookService.getBook(id);

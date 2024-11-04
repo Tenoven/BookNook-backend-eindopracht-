@@ -38,10 +38,27 @@ public class BookService {
     public List<BookDto> getBooks() {
 
         List<Book> books = bookRepository.findAll();
+
         List<BookDto> bookDtos = new ArrayList<>();
 
         for (Book book : books) {
+            if (book.isValidated()) {
             bookDtos.add(toBookDto(book));
+            }
+        }
+        return bookDtos;
+    }
+
+    public List<BookDto> getFalseBooks() {
+
+        List<Book> books = bookRepository.findAll();
+
+        List<BookDto> bookDtos = new ArrayList<>();
+
+        for (Book book : books) {
+            if (!book.isValidated()) {
+                bookDtos.add(toBookDto(book));
+            }
         }
         return bookDtos;
     }

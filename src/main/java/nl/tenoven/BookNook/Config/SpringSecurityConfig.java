@@ -54,11 +54,11 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth ->
                                 auth
                                         .requestMatchers(HttpMethod.GET, "/books", "/authors", "/reviews/*/comments", "/reviews").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/books/unvalidated", "/authors/unvalidated").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.GET, "/books/{bookid}", "/authors/{authorid}", "/reviews/{reviewid}/comments/{commentid}", "/reviews/{reviewid}", "/users/{username}").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/books/{bookid}/cover", "/authors/{authorid}/photo", "/users/{username}/picture").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/users/{username}/authorities").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/authenticated").hasRole ("USER")
-                                        .requestMatchers(HttpMethod.GET, "/books/unvalidated").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.PUT, "/authors/{authorid}/validate", "/books/{bookid}/validate").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.PUT, "/books/{bookid}", "/authors/{authorid}", "/reviews/{reviewid}/comments/{commentid}", "/reviews/{reviewid}", "/users/{username}").hasRole ("USER")
                                         .requestMatchers(HttpMethod.POST, "/users").permitAll()

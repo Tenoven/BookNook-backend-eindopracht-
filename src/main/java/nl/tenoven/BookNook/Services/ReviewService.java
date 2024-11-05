@@ -52,9 +52,9 @@ public class ReviewService {
 
     public ReviewDto addReview(ReviewInputDto newReview, UserDetails userDetails) {
         Review savedReview = reviewRepository.save(toReview(newReview));
-        Optional<User> u = userRepository.findById(userDetails.getUsername());
-        if(u.isPresent()){
-            savedReview.setUser(u.get());
+        Optional<User> user = userRepository.findById(userDetails.getUsername());
+        if(user.isPresent() & userDetails.isAccountNonExpired()){
+            savedReview.setUser(user.get());
         }
         return toReviewDto(savedReview);
     }

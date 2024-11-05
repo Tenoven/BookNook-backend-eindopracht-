@@ -12,7 +12,7 @@ VALUES
 ('Harry Potter and the Goblet of Fire', 1, 'The fourth book in the Harry Potter series.', 636, 19.99, true),
 ('A Game of Thrones', 2, 'The first book in A Song of Ice and Fire series.', 694, 29.99, true),
 ('A Clash of Kings', 2, 'The second book in A Song of Ice and Fire series.', 768, 29.99, true),
-('A Storm of Swords', 2, 'The third book in A Song of Ice and Fire series.', 973, 29.99, true),
+('A Storm of Swords', 2, 'The third book in A Song of Ice and Fire series.', 973, 29.99, false),
 ('A Feast for Crows', 2, 'The fourth book in A Song of Ice and Fire series.', 753, 29.99, true),
 ('Artemis Fowl', 3, 'The first book in the Artemis Fowl series.', 280, 12.99, true),
 ('Artemis Fowl: The Arctic Incident', 3, 'The second book in the Artemis Fowl series.', 272, 12.99, true),

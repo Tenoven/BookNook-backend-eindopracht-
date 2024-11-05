@@ -37,7 +37,21 @@ public class AuthorService {
         List<AuthorDto> authorDtos = new ArrayList<>();
 
         for (Author author : authors) {
+            if (author.isValidated()) {
             authorDtos.add(toAuthorDto(author));
+            }
+        }
+        return authorDtos;
+    }
+
+    public List<AuthorDto> getUnvalidatedAuthors() {
+        List<Author> authors = authorRepository.findAll();
+        List<AuthorDto> authorDtos = new ArrayList<>();
+
+        for (Author author : authors) {
+            if (!author.isValidated()) {
+                authorDtos.add(toAuthorDto(author));
+            }
         }
         return authorDtos;
     }

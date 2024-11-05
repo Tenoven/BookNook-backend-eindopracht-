@@ -38,6 +38,12 @@ public class AuthorController {
         return ResponseEntity.ok(authors);
     }
 
+    @GetMapping("/unvalidated")
+    public ResponseEntity<List<AuthorDto>> getUnvalidatedAuthors() {
+        List<AuthorDto> authors = authorService.getUnvalidatedAuthors();
+        return ResponseEntity.ok(authors);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDto> getAuthor(@PathVariable Long id) {
         AuthorDto author = authorService.getAuthor(id);

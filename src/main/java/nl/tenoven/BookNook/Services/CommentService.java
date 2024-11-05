@@ -43,9 +43,9 @@ public class CommentService {
 
     public CommentDto addComment(CommentInputDto newComment, UserDetails userDetails) {
         Comment savedComment = commentRepository.save(toComment(newComment));
-        Optional<User> u = userRepository.findById(userDetails.getUsername());
-        if(u.isPresent()){
-            savedComment.setUser(u.get());
+        Optional<User> user = userRepository.findById(userDetails.getUsername());
+        if(user.isPresent() & userDetails.isAccountNonExpired()){
+            savedComment.setUser(user.get());
         }
         return toCommentDto(savedComment);
     }

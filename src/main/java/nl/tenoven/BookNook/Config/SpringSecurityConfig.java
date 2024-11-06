@@ -45,35 +45,81 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    protected SecurityFilterChain filter (HttpSecurity http) throws Exception {
-
+    protected SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(basic -> basic.disable())
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth ->
-                                auth
-                                        .requestMatchers(HttpMethod.GET, "/books", "/authors", "/reviews/*/comments", "/reviews").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/books/unvalidated", "/authors/unvalidated").hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.GET, "/books/{bookid}", "/authors/{authorid}", "/reviews/{reviewid}/comments/{commentid}", "/reviews/{reviewid}", "/users/{username}").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/books/{bookid}/cover", "/authors/{authorid}/photo", "/users/{username}/picture").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/users/{username}/authorities").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/authenticated").hasRole ("USER")
-                                        .requestMatchers(HttpMethod.PUT, "/authors/{authorid}/validate", "/books/{bookid}/validate").hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.PUT, "/books/{bookid}", "/authors/{authorid}", "/reviews/{reviewid}/comments/{commentid}", "/reviews/{reviewid}", "/users/{username}").hasRole ("USER")
-                                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/books/{bookId}/addAuthor/{authorId}", "/reviews/{reviewId}/addBook/{bookId}") .hasRole("USER")
-                                        .requestMatchers(HttpMethod.POST, "/books", "/authors", "/reviews/*/comments", "/reviews").hasRole("USER")
-                                        .requestMatchers(HttpMethod.POST, "/books/{bookid}/cover", "/authors/{authorid}/photo", "/users/{username}/picture").hasRole("USER")
-                                        .requestMatchers(HttpMethod.POST,"/users/{username}", "/users/{username}/authorities" ).hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.DELETE, "/users/{username}", "/books/{bookid}", "/authors/{authorid}", "/reviews/{reviewid}/comments/{commentid}", "/reviews/{reviewid}").hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.DELETE, "/users/{username}/authorities/{authority}").hasRole("ADMIN")
-                                        .requestMatchers("/authenticate").permitAll()
-                                        .anyRequest().denyAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET,
+                                "/books/unvalidated",
+                                "/authors/unvalidated"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,
+                                "/authors/{authorid}/validate",
+                                "/books/{bookid}/validate"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,
+                                "/users/{username}",
+                                "/users/{username}/authorities"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/users/{username}",
+                                "/books/{bookid}",
+                                "/authors/{authorid}",
+                                "/reviews/{reviewid}/comments/{commentid}",
+                                "/reviews/{reviewid}",
+                                "/users/{username}/authorities/{authority}"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET,
+                                "/authenticated"
+                        ).hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT,
+                                "/books/{bookid}",
+                                "/authors/{authorid}",
+                                "/reviews/{reviewid}/comments/{commentid}",
+                                "/reviews/{reviewid}",
+                                "/users/{username}"
+                        ).hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,
+                                "/books/{bookId}/addAuthor/{authorId}",
+                                "/reviews/{reviewId}/addBook/{bookId}",
+                                "/books",
+                                "/authors",
+                                "/reviews/*/comments",
+                                "/reviews",
+                                "/books/{bookid}/cover",
+                                "/authors/{authorid}/photo",
+                                "/users/{username}/picture"
+                        ).hasRole("USER")
+
+                        .requestMatchers(HttpMethod.GET,
+                                "/books",
+                                "/authors",
+                                "/reviews/*/comments",
+                                "/reviews",
+                                "/books/{bookid}",
+                                "/authors/{authorid}",
+                                "/reviews/{reviewid}/comments/{commentid}",
+                                "/reviews/{reviewid}",
+                                "/users/{username}",
+                                "/books/{bookid}/cover",
+                                "/authors/{authorid}/photo",
+                                "/users/{username}/picture",
+                                "/users/{username}/authorities",
+                                "/authenticate"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+
+                        // Default policy: Deny all other requests
+                        .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 
 }

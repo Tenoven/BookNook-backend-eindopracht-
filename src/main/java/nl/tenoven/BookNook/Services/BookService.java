@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static nl.tenoven.BookNook.Mappers.BookMappers.toBook;
@@ -68,11 +69,21 @@ public class BookService {
         return toBookDto(book);
     }
 
+
     public BookDto addBook(BookInputDto newBook) {
         Book savedBook = toBook(newBook);
+
+        // Check if a book with the same ISBN already exists in the database
+        if (bookRepository.existsByIsbn(savedBook.getIsbn())) {
+            throw new IllegalArgumentException("A book with this ISBN already exists.");
+
+        }
+
+        // Save the new book and return its DTO
         Book book = bookRepository.save(savedBook);
         return toBookDto(book);
     }
+
 
     public BookDto addAuthorToBook(Long bookId, Long authorId) {
         Optional<Book> optionalBook = bookRepository.findById(bookId);

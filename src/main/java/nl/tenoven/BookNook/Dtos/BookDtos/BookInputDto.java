@@ -1,13 +1,10 @@
 package nl.tenoven.BookNook.Dtos.BookDtos;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import nl.tenoven.BookNook.Models.Image;
-import nl.tenoven.BookNook.Models.Review;
 
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +14,10 @@ public class BookInputDto {
     private Long authorId;
     @NotEmpty
     private String description;
+    @NotNull
+    @Size(min = 10, max = 13)
+    private String isbn;
+
     private Short amountOfPages;
 
     @Positive(message = "Price must be higher then 0")

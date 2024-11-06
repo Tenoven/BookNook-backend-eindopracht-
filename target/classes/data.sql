@@ -4,20 +4,21 @@ VALUES
     ( 'George R.R. Martin', '1948-09-20', 'American novelist and short story writer, known for A Song of Ice and Fire series.', true),
     ( 'Eoin Colfer', '1965-05-14', 'Irish author, best known for the Artemis Fowl series.', true);
 
-INSERT INTO books ( title, author_id, description, amount_of_pages, price, validated)
+INSERT INTO books (isbn, title, author_id, description, amount_of_pages, price, validated)
 VALUES
-    ('Harry Potter and the Philosophers Stone', 1, 'The first book in the Harry Potter series.', 223, 19.99, false),
-('Harry Potter and the Chamber of Secrets', 1, 'The second book in the Harry Potter series.', 251, 19.99, true),
-('Harry Potter and the Prisoner of Azkaban', 1, 'The third book in the Harry Potter series.', 317, 19.99, true),
-('Harry Potter and the Goblet of Fire', 1, 'The fourth book in the Harry Potter series.', 636, 19.99, true),
-('A Game of Thrones', 2, 'The first book in A Song of Ice and Fire series.', 694, 29.99, true),
-('A Clash of Kings', 2, 'The second book in A Song of Ice and Fire series.', 768, 29.99, true),
-('A Storm of Swords', 2, 'The third book in A Song of Ice and Fire series.', 973, 29.99, false),
-('A Feast for Crows', 2, 'The fourth book in A Song of Ice and Fire series.', 753, 29.99, true),
-('Artemis Fowl', 3, 'The first book in the Artemis Fowl series.', 280, 12.99, true),
-('Artemis Fowl: The Arctic Incident', 3, 'The second book in the Artemis Fowl series.', 272, 12.99, true),
-('Artemis Fowl: The Eternity Code', 3, 'The third book in the Artemis Fowl series.', 320, 12.99, true),
-('Artemis Fowl: The Opal Deception', 3, 'The fourth book in the Artemis Fowl series.', 342, 12.99, true);
+    ('9780747532699', 'Harry Potter and the Philosophers Stone', 1, 'The first book in the Harry Potter series.', 223, 19.99, false),
+    ('9780747538493', 'Harry Potter and the Chamber of Secrets', 1, 'The second book in the Harry Potter series.', 251, 19.99, true),
+    ('9780747542155', 'Harry Potter and the Prisoner of Azkaban', 1, 'The third book in the Harry Potter series.', 317, 19.99, true),
+    ('9780747546245', 'Harry Potter and the Goblet of Fire', 1, 'The fourth book in the Harry Potter series.', 636, 19.99, true),
+    ('9780553573404', 'A Game of Thrones', 2, 'The first book in A Song of Ice and Fire series.', 694, 29.99, true),
+    ('9780553579901', 'A Clash of Kings', 2, 'The second book in A Song of Ice and Fire series.', 768, 29.99, true),
+    ('9780553573428', 'A Storm of Swords', 2, 'The third book in A Song of Ice and Fire series.', 973, 29.99, false),
+    ('9780553582024', 'A Feast for Crows', 2, 'The fourth book in A Song of Ice and Fire series.', 753, 29.99, true),
+    ('9780141312125', 'Artemis Fowl', 3, 'The first book in the Artemis Fowl series.', 280, 12.99, true),
+    ('9780141339092', 'Artemis Fowl: The Arctic Incident', 3, 'The second book in the Artemis Fowl series.', 272, 12.99, true),
+    ('9780141339108', 'Artemis Fowl: The Eternity Code', 3, 'The third book in the Artemis Fowl series.', 320, 12.99, true),
+    ('9780141339115', 'Artemis Fowl: The Opal Deception', 3, 'The fourth book in the Artemis Fowl series.', 342, 12.99, true);
+
 
 INSERT INTO users (username, password)
 VALUES

@@ -18,6 +18,8 @@ public class BookMappers {
         }
         dto.setDescription(book.getDescription());
         dto.setAmountOfPages(book.getAmountOfPages());
+
+        dto.setIsbn(book.getIsbn());
         dto.setPrice(book.getPrice());
         dto.setCover(book.getCover());
         dto.setValidated(book.isValidated());
@@ -40,6 +42,7 @@ public class BookMappers {
         }
 
         book.setDescription(bookDto.getDescription());
+        book.setIsbn(bookDto.getIsbn());
         book.setPrice(bookDto.getPrice());
         book.setCover(bookDto.getCover());
         book.setAmountOfPages(bookDto.getAmountOfPages());

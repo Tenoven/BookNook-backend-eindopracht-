@@ -2,6 +2,7 @@ package nl.tenoven.BookNook.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,8 @@ public class Book {
     private String title;
     @ManyToOne
     private Author author;
+    @NotNull
+    private String isbn;
     @NotEmpty
     @Column(length = 2000)
     private String description;

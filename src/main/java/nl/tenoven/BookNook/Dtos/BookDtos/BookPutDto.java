@@ -12,6 +12,7 @@ import java.util.List;
 public class BookPutDto {
     private String title;
     private Long authorId;
+    private String isbn;
     private String description;
     private Short amountOfPages;
     private Float price;

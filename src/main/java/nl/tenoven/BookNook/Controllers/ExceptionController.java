@@ -1,5 +1,6 @@
 package nl.tenoven.BookNook.Controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.exceptions.BadRequestException;
 import nl.tenoven.BookNook.exceptions.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -25,4 +26,19 @@ public class ExceptionController {
     public ResponseEntity<String> exception(UsernameNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<String> exception(EntityNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<String> exception(IllegalArgumentException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<String> exception(RuntimeException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

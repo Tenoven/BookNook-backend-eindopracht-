@@ -20,10 +20,10 @@ VALUES
     ('9780141339115', 'Artemis Fowl: The Opal Deception', 3, 'The fourth book in the Artemis Fowl series.', 342, 12.99, true);
 
 
-INSERT INTO users (username, password)
+INSERT INTO users (username, password, email)
 VALUES
-    ('PietPrecies', '$2a$12$XsnFKXpNhG6YRgtZDiD.5uHoPg2L4N1dxjK2sGkcYD13sIiPhGBpK'),
-    ('Admin', '$2a$12$QJIYtGJpIZ0m6pAErvyh3OeLXMmYBf1UK7KREgseUDGRvcERXmEMS');
+    ('PietPrecies', '$2a$12$XsnFKXpNhG6YRgtZDiD.5uHoPg2L4N1dxjK2sGkcYD13sIiPhGBpK', 'test@test.nl'),
+    ('Admin', '$2a$12$QJIYtGJpIZ0m6pAErvyh3OeLXMmYBf1UK7KREgseUDGRvcERXmEMS', 'admin@admin.nl');
 
 INSERT INTO reviews ( review_title, book_id, text, score, user_username)
 VALUES

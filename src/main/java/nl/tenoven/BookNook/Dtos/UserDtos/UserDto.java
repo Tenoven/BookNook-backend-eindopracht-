@@ -14,5 +14,6 @@ public class UserDto {
     public String password;
     public Image picture;
     public String apikey;
+    private String email;
     public Set<Authority> authorities;
 }

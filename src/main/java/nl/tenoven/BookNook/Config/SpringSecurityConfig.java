@@ -11,6 +11,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,7 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -47,13 +48,15 @@ public class SpringSecurityConfig {
     @Bean
     protected SecurityFilterChain filter(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .httpBasic(basic -> basic.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET,
                                 "/books/unvalidated",
-                                "/authors/unvalidated"
+                                "/authors/unvalidated",
+                                "/users/{username}",
+                                "/users/{username}/authorities"
                         ).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,
                                 "/authors/{authorid}/validate",
@@ -73,7 +76,8 @@ public class SpringSecurityConfig {
                         ).hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET,
-                                "/authenticated"
+                                "/authenticated",
+                                "/users"
                         ).hasRole("USER")
                         .requestMatchers(HttpMethod.PUT,
                                 "/books/{bookid}",
@@ -106,13 +110,10 @@ public class SpringSecurityConfig {
                                 "/users/{username}",
                                 "/books/{bookid}/cover",
                                 "/authors/{authorid}/photo",
-                                "/users/{username}/picture",
-                                "/users/{username}/authorities",
-                                "/authenticate"
+                                "/users/{username}/picture"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
-                        // Default policy: Deny all other requests
+                        .requestMatchers(HttpMethod.POST, "/users", "/authenticate").permitAll()
                         .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

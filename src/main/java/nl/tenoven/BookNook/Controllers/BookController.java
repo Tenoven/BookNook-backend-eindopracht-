@@ -4,8 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookDto;
 import nl.tenoven.BookNook.Dtos.BookDtos.BookInputDto;
-import nl.tenoven.BookNook.Dtos.BookDtos.BookPutDto;
-import nl.tenoven.BookNook.Models.Author;
+import nl.tenoven.BookNook.Dtos.BookDtos.BookPatchDto;
+import nl.tenoven.BookNook.Dtos.BookDtos.BookShortDto;
 import nl.tenoven.BookNook.Services.BookService;
 import nl.tenoven.BookNook.Services.ImageService;
 import org.springframework.core.io.Resource;
@@ -34,25 +34,25 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDto>> getBooks() {
-        List<BookDto> books = bookService.getBooks();
+    public ResponseEntity<List<BookShortDto>> getValidatedBooks() {
+        List<BookShortDto> books = bookService.getValidatedBooks();
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/unvalidated")
-    public ResponseEntity<List<BookDto>> getFalseBooks() {
-        List<BookDto> books = bookService.getFalseBooks();
+    public ResponseEntity<List<BookShortDto>> getUnvalidatedBooks() {
+        List<BookShortDto> books = bookService.getUnvalidatedBooks();
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getBook(@PathVariable("id") Long id) {
+    public ResponseEntity<BookDto> getBookById(@PathVariable("id") Long id) {
         BookDto book = bookService.getBook(id);
         return ResponseEntity.ok().body(book);
     }
 
     @GetMapping("/{id}/cover")
-    public ResponseEntity<Resource> getBookCover(@PathVariable("id") Long bookId, HttpServletRequest request) {
+    public ResponseEntity<Resource> getBookCoverByID(@PathVariable("id") Long bookId, HttpServletRequest request) {
         BookDto dto = bookService.getBook(bookId);
         String fileName = dto.getCover().getFileName();
         Resource resource = imageService.getImage(fileName);
@@ -69,7 +69,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> addBook(@Valid @RequestBody BookInputDto dto) {
+    public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookInputDto dto) {
         BookDto bookDto = bookService.addBook(dto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookDto.getId()).toUri();
@@ -78,7 +78,7 @@ public class BookController {
     }
 
     @PostMapping("/{id}/cover")
-    public ResponseEntity<BookDto> addCoverToBook(@PathVariable("id") Long bookId, @RequestBody MultipartFile cover) throws IOException {
+    public ResponseEntity<BookDto> addCoverToBookByID(@PathVariable("id") Long bookId, @RequestBody MultipartFile cover) throws IOException {
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/books/").path(Objects.requireNonNull(bookId.toString())).path("/cover").toUriString();
         String fileName = imageService.addImage(cover);
         BookDto book = bookService.assignCoverToBook(fileName, bookId);
@@ -87,7 +87,7 @@ public class BookController {
     }
 
     @PostMapping("/{bookId}/addAuthor/{authorId}")
-    public ResponseEntity<BookDto> addAuthorToBook(@PathVariable("bookId") Long bookId, @PathVariable("authorId") Long authorID) {
+    public ResponseEntity<BookDto> addAuthorToBookById(@PathVariable("bookId") Long bookId, @PathVariable("authorId") Long authorID) {
 
         BookDto book = bookService.addAuthorToBook(bookId, authorID);
 
@@ -95,19 +95,19 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBookById(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody BookPutDto newBook) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<BookDto> updateBookById(@PathVariable Long id, @RequestBody BookPatchDto newBook) {
         BookDto dto = bookService.updateBook(id, newBook);
         return ResponseEntity.ok().body(dto);
     }
 
-    @PutMapping("/{id}/validate")
-    public ResponseEntity<BookDto> validateBook(@PathVariable Long id) {
+    @PatchMapping("/{id}/validate")
+    public ResponseEntity<BookDto> validateBookDataByID(@PathVariable Long id) {
         BookDto dto = bookService.validateBook(id);
         return ResponseEntity.ok().body(dto);
     }

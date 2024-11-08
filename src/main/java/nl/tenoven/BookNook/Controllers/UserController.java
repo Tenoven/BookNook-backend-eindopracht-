@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<UserDto> getUser(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<UserDto> getUserDetailsByJwt(@AuthenticationPrincipal UserDetails userDetails) {
 
         UserDto optionalUser = userService.getUser(userDetails.getUsername());
 
@@ -45,12 +45,12 @@ public class UserController {
 
     @GetMapping("/{username}")
     public UserDto getUserByUsername(@PathVariable("username") String username) {
-        UserDto userDto= userService.getUserByUsername(username);
+        UserDto userDto = userService.getUserByUsername(username);
         return userDto;
     }
 
     @GetMapping(value = "/{username}/picture")
-    public ResponseEntity<Resource> getPicture(@PathVariable("username") String username, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Resource> getUserPicture(@PathVariable("username") String username, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         UserDto dto = userService.getUser(username);
         String filename = dto.getPicture().getFileName();
         Resource resource = imageService.getImage(filename);
@@ -86,8 +86,8 @@ public class UserController {
         return ResponseEntity.created(URI.create(url)).body(user);
     }
 
-    @PutMapping(value = "/{username}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto, @AuthenticationPrincipal UserDetails userDetails) {
+    @PatchMapping(value = "/{username}")
+    public ResponseEntity<UserDto> updateUserByUsername(@PathVariable("username") String username, @RequestBody UserDto dto, @AuthenticationPrincipal UserDetails userDetails) {
 
         userService.updateUser(username, dto, userDetails);
 
@@ -95,13 +95,13 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{username}")
-    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
+    public ResponseEntity<Object> deleteUserByUsername(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/{username}/authorities")
-    public ResponseEntity<Object> getUserAuthorities(@PathVariable("username") String username) {
+    public ResponseEntity<Object> getUserAuthoritiesByUsername(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userService.getAuthorities(username));
     }
 

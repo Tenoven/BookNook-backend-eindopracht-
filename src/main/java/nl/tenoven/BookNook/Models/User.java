@@ -26,11 +26,11 @@ public class User {
 
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Review> reviews;
 
-   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-   private List<Comment> comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     @OneToMany(targetEntity = Authority.class, mappedBy = "username", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();

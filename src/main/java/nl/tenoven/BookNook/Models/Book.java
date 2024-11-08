@@ -20,7 +20,7 @@ public class Book {
     private Long id;
     @NotEmpty
     private String title;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
     @NotNull
     private String isbn;
@@ -30,7 +30,7 @@ public class Book {
     private Short amountOfPages;
     private Float price;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Review> reviews;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

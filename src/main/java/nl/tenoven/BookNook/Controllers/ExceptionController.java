@@ -36,6 +36,7 @@ public class ExceptionController {
     public ResponseEntity<String> exception(IllegalArgumentException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<String> exception(RuntimeException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);

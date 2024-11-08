@@ -43,7 +43,7 @@ public class UserService {
         return dto;
     }
 
-    public UserDto getUserByUsername (String username) {
+    public UserDto getUserByUsername(String username) {
         User user = userRepository.findById(username).orElseThrow(() -> new RecordNotFoundException("User not found: " + username));
         return toUserDto(user);
 
@@ -51,7 +51,7 @@ public class UserService {
 
     public String createUser(UserDto userDto) {
         if (userRepository.existsById(userDto.username)) {
-            throw new IllegalArgumentException("user " +userDto.getUsername() + " already exists" );
+            throw new IllegalArgumentException("user " + userDto.getUsername() + " already exists");
         }
 
         String randomString = RandomStingGenerator.generateAlphaNumeric(20);
@@ -67,7 +67,7 @@ public class UserService {
         userRepository.deleteById(username);
     }
 
-    public void updateUser( String username, UserDto newUser, UserDetails userDetails) {
+    public void updateUser(String username, UserDto newUser, UserDetails userDetails) {
         if (!userRepository.existsById(username)) throw new RecordNotFoundException("User not found: " + username);
         boolean isAdmin = userDetails.getAuthorities().stream()
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
@@ -77,7 +77,7 @@ public class UserService {
 
         User user = userRepository.findById(username).orElseThrow(() -> new RecordNotFoundException("User not found"));
         if (newUser.getPassword() != null) {
-        user.setPassword(newUser.getPassword());
+            user.setPassword(newUser.getPassword());
         }
         if (newUser.getUsername() != null) {
             user.setUsername(newUser.getUsername());

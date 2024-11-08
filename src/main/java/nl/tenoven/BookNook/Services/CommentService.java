@@ -3,7 +3,7 @@ package nl.tenoven.BookNook.Services;
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentDto;
 import nl.tenoven.BookNook.Dtos.CommentDtos.CommentInputDto;
-import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPutDto;
+import nl.tenoven.BookNook.Dtos.CommentDtos.CommentPatchDto;
 import nl.tenoven.BookNook.Mappers.CommentMapper;
 import nl.tenoven.BookNook.Models.Comment;
 import nl.tenoven.BookNook.Models.Review;
@@ -44,13 +44,13 @@ public class CommentService {
     public CommentDto addComment(CommentInputDto newComment, UserDetails userDetails) {
         Comment savedComment = commentRepository.save(toComment(newComment));
         Optional<User> user = userRepository.findById(userDetails.getUsername());
-        if(user.isPresent() & userDetails.isAccountNonExpired()){
+        if (user.isPresent() & userDetails.isAccountNonExpired()) {
             savedComment.setUser(user.get());
         }
         return toCommentDto(savedComment);
     }
 
-    public CommentDto updateComment(Long id, CommentPutDto updatedComment) {
+    public CommentDto updateComment(Long id, CommentPatchDto updatedComment) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Comment" + id + "not found"));
 
         if (updatedComment.getMessage() != null) {
@@ -59,9 +59,7 @@ public class CommentService {
         if (updatedComment.getDatePosted() != null) {
             comment.setDatePosted(updatedComment.getDatePosted());
         }
-        if (updatedComment.getReview() != null) {
-            comment.setReview(updatedComment.getReview());
-        }
+
 
         Comment savedComment = commentRepository.save(comment);
         return toCommentDto(savedComment);

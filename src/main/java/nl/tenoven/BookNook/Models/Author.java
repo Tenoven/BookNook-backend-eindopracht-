@@ -20,7 +20,7 @@ public class Author {
     private String description;
     private boolean validated;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Book> books;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

@@ -58,7 +58,7 @@ public class SpringSecurityConfig {
                                 "/users/{username}",
                                 "/users/{username}/authorities"
                         ).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT,
+                        .requestMatchers(HttpMethod.PATCH,
                                 "/authors/{authorid}/validate",
                                 "/books/{bookid}/validate"
                         ).hasRole("ADMIN")
@@ -70,7 +70,7 @@ public class SpringSecurityConfig {
                                 "/users/{username}",
                                 "/books/{bookid}",
                                 "/authors/{authorid}",
-                                "/reviews/{reviewid}/comments/{commentid}",
+                                "/reviews/comments/{commentid}",
                                 "/reviews/{reviewid}",
                                 "/users/{username}/authorities/{authority}"
                         ).hasRole("ADMIN")
@@ -79,19 +79,19 @@ public class SpringSecurityConfig {
                                 "/authenticated",
                                 "/users"
                         ).hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT,
+                        .requestMatchers(HttpMethod.PATCH,
                                 "/books/{bookid}",
                                 "/authors/{authorid}",
-                                "/reviews/{reviewid}/comments/{commentid}",
+                                "/reviews/comments/{commentid}",
                                 "/reviews/{reviewid}",
                                 "/users/{username}"
                         ).hasRole("USER")
                         .requestMatchers(HttpMethod.POST,
                                 "/books/{bookId}/addAuthor/{authorId}",
-                                "/reviews/{reviewId}/addBook/{bookId}",
+                                "/reviews/{revieuwId}/addBook/{bookId}",
                                 "/books",
                                 "/authors",
-                                "/reviews/*/comments",
+                                "/reviews/comments",
                                 "/reviews",
                                 "/books/{bookid}/cover",
                                 "/authors/{authorid}/photo",
@@ -101,12 +101,12 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET,
                                 "/books",
                                 "/authors",
-                                "/reviews/*/comments",
+                                "/reviews/comments/{reviewId}",
                                 "/reviews",
                                 "/books/{bookid}",
                                 "/authors/{authorid}",
-                                "/reviews/{reviewid}/comments/{commentid}",
-                                "/reviews/{reviewid}",
+                                "/reviews/comments/{commentid}",
+                                "/reviews/{reviewiId}",
                                 "/users/{username}",
                                 "/books/{bookid}/cover",
                                 "/authors/{authorid}/photo",

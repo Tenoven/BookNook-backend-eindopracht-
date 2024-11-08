@@ -2,6 +2,7 @@ package nl.tenoven.BookNook.Mappers;
 
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorShortDto;
 import nl.tenoven.BookNook.Models.Author;
 
 public class AuthorMappers {
@@ -16,6 +17,18 @@ public class AuthorMappers {
         if (author.getBooks() != null) {
             dto.setBooks(author.getBooks().stream().map(BookMappers::toBookDto).toList());
         }
+
+        return dto;
+    }
+
+    public static AuthorShortDto toAuthorShortDto(Author author) {
+        AuthorShortDto dto = new AuthorShortDto();
+        dto.setId(author.getId());
+        dto.setName(author.getName());
+        dto.setDescription(author.getDescription());
+        dto.setPhoto(author.getPhoto());
+        dto.setDateOfBirth(author.getDateOfBirth());
+        dto.setValidated(author.isValidated());
 
         return dto;
     }

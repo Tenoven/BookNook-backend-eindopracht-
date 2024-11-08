@@ -1,29 +1,24 @@
 package nl.tenoven.BookNook.Dtos.BookDtos;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import nl.tenoven.BookNook.Models.Image;
-
 
 @Getter
 @Setter
-public class BookInputDto {
-    @NotEmpty
+public class BookPatchDto {
+    @Size(max = 255, message = "Title cannot exceed 255 characters")
     private String title;
-    @NotEmpty
-    private String description;
-    @NotNull
     @Size(min = 10, max = 13)
     private String isbn;
+    @Size(max = 1000, message = "Description cannot exceed 1000 characters")
+    private String description;
     @Positive
     private Short amountOfPages;
-    @Positive(message = "Price must be higher then 0")
+    @Positive
     private Float price;
-    private Image cover;
+    @Positive
     private Long authorId;
 
 }

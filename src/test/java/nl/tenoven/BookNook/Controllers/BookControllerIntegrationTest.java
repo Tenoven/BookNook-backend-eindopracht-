@@ -37,21 +37,13 @@ public class BookControllerIntegrationTest {
     @Autowired
     private BookController bookController;
 
-    @BeforeEach
-    void setup() {
-//        mockMvc = MockMvcBuilders.standaloneSetup(bookController).build();
-
-
-
-    }
-
     @Test
     void testGetBooks() throws Exception {
 
         mockMvc.perform(get("/books")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value("Barry Potter and the Philosophers Stone"))
+                .andExpect(jsonPath("$[0].title").value("Barry Potter and the Chamber of Secrets"))
                 .andExpect(jsonPath("$[0].authorName").value("J.K. Bowling"));
     }
 

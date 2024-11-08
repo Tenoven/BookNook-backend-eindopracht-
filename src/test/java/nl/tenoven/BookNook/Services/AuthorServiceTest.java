@@ -3,13 +3,13 @@ package nl.tenoven.BookNook.Services;
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
-import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPatchDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorShortDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Book;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Repositories.AuthorRepository;
 import nl.tenoven.BookNook.Repositories.ImageRepository;
-import nl.tenoven.BookNook.Services.AuthorService;
 import nl.tenoven.BookNook.exceptions.RecordNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ class AuthorServiceTest {
     }
 
     @Test
-    void testGetAuthors() {
+    void testGetValidatedAuthors() {
         // Arrange
         Author author1 = new Author();
         author1.setId(1L);
@@ -66,10 +66,10 @@ class AuthorServiceTest {
         author2.setId(2L);
         author2.setName("Jane Smith");
 
-        when(authorRepository.findAll()).thenReturn(Arrays.asList(author1, author2));
+        when(authorRepository.findAllByValidated(true)).thenReturn(Arrays.asList(author1, author2));
 
         // Act
-        List<AuthorDto> authors = authorService.getAuthors();
+        List<AuthorShortDto> authors = authorService.getAuthors();
 
         // Assert
         assertEquals(2, authors.size());
@@ -77,6 +77,29 @@ class AuthorServiceTest {
         assertEquals("Jane Smith", authors.get(1).getName());
     }
 
+    @Test
+    void testGetUnvalidatedAuthors() {
+        // Arrange
+        Author author1 = new Author();
+        author1.setId(1L);
+        author1.setName("John Doe");
+        author1.setValidated(false);
+
+        Author author2 = new Author();
+        author2.setId(2L);
+        author2.setName("Jane Smith");
+        author2.setValidated(false);
+
+        when(authorRepository.findAllByValidated(false)).thenReturn(Arrays.asList(author1, author2));
+
+        // Act
+        List<AuthorShortDto> authors = authorService.getUnvalidatedAuthors();
+
+        // Assert
+        assertEquals(2, authors.size());
+        assertEquals("John Doe", authors.get(0).getName());
+        assertEquals("Jane Smith", authors.get(1).getName());
+    }
     @Test
     void testGetAuthor() {
         // Arrange
@@ -123,12 +146,9 @@ class AuthorServiceTest {
         author.setName("Old Name");
 
 
-        AuthorPutDto updatedAuthor = new AuthorPutDto();
+        AuthorPatchDto updatedAuthor = new AuthorPatchDto();
         updatedAuthor.setName("Updated Name");
         updatedAuthor.setDescription("test");
-
-        Image photo = new Image();
-        updatedAuthor.setPhoto(photo);
 
         updatedAuthor.setDateOfBirth("11-11-2011");
 
@@ -212,26 +232,6 @@ class AuthorServiceTest {
         assertEquals(image, author.getPhoto()); // Verify that the photo was set
         verify(authorRepository).save(author); // Ensure save was called
     }
-
-//    @Test
-//    void testAssignPhotoToAuthor_AuthorNotFound() {
-//        // Arrange
-//        String fileName = "profile.jpg";
-//        Long authorId = 1L;
-//
-//        // Mock author repository to return an empty Optional
-//        when(authorRepository.findById(authorId)).thenReturn(Optional.empty());
-//
-//        // Act & Assert
-//        RecordNotFoundException exception = assertThrows(RecordNotFoundException.class, () ->
-//                authorService.assignPhotoToAuthor(fileName, authorId)
-//        );
-//
-//        assertEquals("Author or photo not found", exception.getMessage());
-//
-//        // Verify that image repository was NOT accessed
-//        verify(imageRepository, never()).findById(anyString());
-//    }
 
 
     @Test

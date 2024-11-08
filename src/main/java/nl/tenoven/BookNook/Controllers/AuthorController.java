@@ -4,7 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
-import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPatchDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorShortDto;
 import nl.tenoven.BookNook.Services.AuthorService;
 import nl.tenoven.BookNook.Services.ImageService;
 import org.springframework.core.io.Resource;
@@ -33,19 +34,25 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorDto>> getAuthors() {
-        List<AuthorDto> authors = authorService.getAuthors();
+    public ResponseEntity<List<AuthorShortDto>> getValidatedAuthors() {
+        List<AuthorShortDto> authors = authorService.getAuthors();
+        return ResponseEntity.ok(authors);
+    }
+
+    @GetMapping("/unvalidated")
+    public ResponseEntity<List<AuthorShortDto>> getUnvalidatedAuthors() {
+        List<AuthorShortDto> authors = authorService.getUnvalidatedAuthors();
         return ResponseEntity.ok(authors);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorDto> getAuthor(@PathVariable Long id) {
+    public ResponseEntity<AuthorDto> getAuthorById(@PathVariable Long id) {
         AuthorDto author = authorService.getAuthor(id);
         return ResponseEntity.ok().body(author);
     }
 
     @GetMapping("/{id}/photo")
-    public ResponseEntity<Resource> getAuthorPhoto(@PathVariable("id") Long authorId, HttpServletRequest request) {
+    public ResponseEntity<Resource> getAuthorPhotoById(@PathVariable("id") Long authorId, HttpServletRequest request) {
         AuthorDto dto = authorService.getAuthor(authorId);
         String fileName = dto.getPhoto().getFileName();
         Resource resource = imageService.getImage(fileName);
@@ -62,7 +69,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorDto> addAuthor(@Valid @RequestBody AuthorInputDto dto) {
+    public ResponseEntity<AuthorDto> createAuthor(@Valid @RequestBody AuthorInputDto dto) {
         AuthorDto authorDto = authorService.addAuthor(dto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(authorDto.getId()).toUri();
@@ -71,7 +78,7 @@ public class AuthorController {
     }
 
     @PostMapping("/{id}/photo")
-    public ResponseEntity<AuthorDto> addPhotoToAuthor(@PathVariable("id") Long authorId, @RequestBody MultipartFile photo) throws IOException {
+    public ResponseEntity<AuthorDto> addPhotoToAuthorById(@PathVariable("id") Long authorId, @RequestBody MultipartFile photo) throws IOException {
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/authors/").path(Objects.requireNonNull(authorId.toString())).path("/photo").toUriString();
         String fileName = imageService.addImage(photo);
         AuthorDto author = authorService.assignPhotoToAuthor(fileName, authorId);
@@ -80,19 +87,19 @@ public class AuthorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAuthorById(@PathVariable Long id) {
         authorService.deleteAuthor(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AuthorDto> updateAuthor(@PathVariable Long id, @RequestBody AuthorPutDto newAuthor) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<AuthorDto> updateAuthorById(@PathVariable Long id, @RequestBody AuthorPatchDto newAuthor) {
         AuthorDto dto = authorService.updateAuthor(id, newAuthor);
         return ResponseEntity.ok().body(dto);
     }
 
-    @PutMapping("/{id}/validate")
-    public ResponseEntity<AuthorDto> validateAuthor(@PathVariable Long id) {
+    @PatchMapping("/{id}/validate")
+    public ResponseEntity<AuthorDto> validateAuthorDetailsByID(@PathVariable Long id) {
         AuthorDto dto = authorService.validateAuthor(id);
         return ResponseEntity.ok().body(dto);
     }

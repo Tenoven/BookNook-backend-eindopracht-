@@ -9,6 +9,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,18 +33,24 @@ public class UserController {
         this.imageService = imageService;
     }
 
-    @GetMapping(value = "/{username}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
+    @GetMapping
+    public ResponseEntity<UserDto> getUserDetailsByJwt(@AuthenticationPrincipal UserDetails userDetails) {
 
-        UserDto optionalUser = userService.getUser(username);
+        UserDto optionalUser = userService.getUser(userDetails.getUsername());
 
 
         return ResponseEntity.ok().body(optionalUser);
 
     }
 
+    @GetMapping("/{username}")
+    public UserDto getUserByUsername(@PathVariable("username") String username) {
+        UserDto userDto = userService.getUserByUsername(username);
+        return userDto;
+    }
+
     @GetMapping(value = "/{username}/picture")
-    public ResponseEntity<Resource> getPicture(@PathVariable("username") String username, HttpServletRequest request) {
+    public ResponseEntity<Resource> getUserPicture(@PathVariable("username") String username, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         UserDto dto = userService.getUser(username);
         String filename = dto.getPicture().getFileName();
         Resource resource = imageService.getImage(filename);
@@ -78,22 +86,22 @@ public class UserController {
         return ResponseEntity.created(URI.create(url)).body(user);
     }
 
-    @PutMapping(value = "/{username}")
-    public ResponseEntity<UserDto> updateKlant(@PathVariable("username") String username, @RequestBody UserDto dto) {
+    @PatchMapping(value = "/{username}")
+    public ResponseEntity<UserDto> updateUserByUsername(@PathVariable("username") String username, @RequestBody UserDto dto, @AuthenticationPrincipal UserDetails userDetails) {
 
-        userService.updateUser(username, dto);
+        userService.updateUser(username, dto, userDetails);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{username}")
-    public ResponseEntity<Object> deleteKlant(@PathVariable("username") String username) {
+    public ResponseEntity<Object> deleteUserByUsername(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/{username}/authorities")
-    public ResponseEntity<Object> getUserAuthorities(@PathVariable("username") String username) {
+    public ResponseEntity<Object> getUserAuthoritiesByUsername(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userService.getAuthorities(username));
     }
 

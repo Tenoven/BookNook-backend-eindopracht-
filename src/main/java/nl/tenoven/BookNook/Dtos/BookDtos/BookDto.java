@@ -16,6 +16,7 @@ public class BookDto {
     private String authorName;
     private String description;
     private Short amountOfPages;
+    private String isbn;
     private Float price;
     private List<ReviewDto> reviews;
     private Image cover;

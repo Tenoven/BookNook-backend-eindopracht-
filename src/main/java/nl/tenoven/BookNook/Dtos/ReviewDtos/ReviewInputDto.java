@@ -6,22 +6,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import nl.tenoven.BookNook.Models.Comment;
-
-import java.util.List;
 
 @Getter
 @Setter
 public class ReviewInputDto {
-    @NotEmpty
-    private String reviewer;
 
     @NotEmpty
     private String reviewTitle;
-
-    private List<Comment> comments;
-
-    @NotEmpty
+    @NotNull
     private Long bookId;
 
     @NotEmpty

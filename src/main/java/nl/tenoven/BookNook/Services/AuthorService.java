@@ -3,7 +3,8 @@ package nl.tenoven.BookNook.Services;
 import jakarta.persistence.EntityNotFoundException;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorDto;
 import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorInputDto;
-import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPutDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorPatchDto;
+import nl.tenoven.BookNook.Dtos.AuthorDtos.AuthorShortDto;
 import nl.tenoven.BookNook.Models.Author;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Repositories.AuthorRepository;
@@ -15,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static nl.tenoven.BookNook.Mappers.AuthorMappers.toAuthor;
-import static nl.tenoven.BookNook.Mappers.AuthorMappers.toAuthorDto;
+import static nl.tenoven.BookNook.Mappers.AuthorMappers.*;
 
 
 @Service
@@ -32,14 +32,24 @@ public class AuthorService {
         this.imageRepository = imageRepository;
     }
 
-    public List<AuthorDto> getAuthors() {
-        List<Author> authors = authorRepository.findAll();
-        List<AuthorDto> authorDtos = new ArrayList<>();
+    public List<AuthorShortDto> getAuthors() {
+        List<Author> authors = authorRepository.findAllByValidated(true);
+        List<AuthorShortDto> authorShortDtos = new ArrayList<>();
 
         for (Author author : authors) {
-            authorDtos.add(toAuthorDto(author));
+            authorShortDtos.add(toAuthorShortDto(author));
         }
-        return authorDtos;
+        return authorShortDtos;
+    }
+
+    public List<AuthorShortDto> getUnvalidatedAuthors() {
+        List<Author> authors = authorRepository.findAllByValidated(false);
+        List<AuthorShortDto> authorShortDtos = new ArrayList<>();
+
+        for (Author author : authors) {
+            authorShortDtos.add(toAuthorShortDto(author));
+        }
+        return authorShortDtos;
     }
 
     public AuthorDto getAuthor(Long id) {
@@ -54,7 +64,7 @@ public class AuthorService {
         return toAuthorDto(author);
     }
 
-    public AuthorDto updateAuthor(Long id, AuthorPutDto updatedAuthor) {
+    public AuthorDto updateAuthor(Long id, AuthorPatchDto updatedAuthor) {
         Author author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Author" + id + "not found"));
 
         if (updatedAuthor.getName() != null) {
@@ -62,9 +72,6 @@ public class AuthorService {
         }
         if (updatedAuthor.getDescription() != null) {
             author.setDescription(updatedAuthor.getDescription());
-        }
-        if (updatedAuthor.getPhoto() != null) {
-            author.setPhoto(updatedAuthor.getPhoto());
         }
         if (updatedAuthor.getDateOfBirth() != null) {
             author.setDateOfBirth(updatedAuthor.getDateOfBirth());

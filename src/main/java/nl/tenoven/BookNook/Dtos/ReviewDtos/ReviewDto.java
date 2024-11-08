@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class ReviewDto {
     private Long id;
-    private String reviewer;
+    private String usernameReviewer;
     private String reviewTitle;
     private List<CommentDto> comments;
     private String bookName;

@@ -1,13 +1,16 @@
 package nl.tenoven.BookNook.Services;
 
+import nl.tenoven.BookNook.Config.SpringSecurityConfig;
 import nl.tenoven.BookNook.Dtos.UserDtos.UserDto;
 import nl.tenoven.BookNook.Models.Authority;
 import nl.tenoven.BookNook.Models.Image;
 import nl.tenoven.BookNook.Models.User;
 import nl.tenoven.BookNook.Repositories.ImageRepository;
 import nl.tenoven.BookNook.Repositories.UserRepository;
+import nl.tenoven.BookNook.exceptions.NotAuthorizedException;
 import nl.tenoven.BookNook.exceptions.RecordNotFoundException;
 import nl.tenoven.BookNook.utils.RandomStingGenerator;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ public class UserService {
     }
 
     public UserDto getUser(String username) {
+        if (!userRepository.existsById(username)) throw new RecordNotFoundException("User not found: " + username);
+
         UserDto dto = new UserDto();
         Optional<User> user = userRepository.findById(username);
         if (user.isPresent()) {
@@ -38,10 +43,22 @@ public class UserService {
         return dto;
     }
 
+    public UserDto getUserByUsername(String username) {
+        User user = userRepository.findById(username).orElseThrow(() -> new RecordNotFoundException("User not found: " + username));
+        return toUserDto(user);
+
+    }
 
     public String createUser(UserDto userDto) {
+        if (userRepository.existsById(userDto.username)) {
+            throw new IllegalArgumentException("user " + userDto.getUsername() + " already exists");
+        }
+
         String randomString = RandomStingGenerator.generateAlphaNumeric(20);
         userDto.setApikey(randomString);
+        String encodedPassword = SpringSecurityConfig.passwordEncoder().encode(userDto.getPassword());
+        userDto.setPassword(encodedPassword);
+
         User newUser = userRepository.save(toUser(userDto));
         return newUser.getUsername();
     }
@@ -50,10 +67,24 @@ public class UserService {
         userRepository.deleteById(username);
     }
 
-    public void updateUser(String username, UserDto newUser) {
-        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
-        User user = userRepository.findById(username).get();
-        user.setPassword(newUser.getPassword());
+    public void updateUser(String username, UserDto newUser, UserDetails userDetails) {
+        if (!userRepository.existsById(username)) throw new RecordNotFoundException("User not found: " + username);
+        boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        if (!username.equals(userDetails.getUsername()) && !isAdmin) {
+            throw new NotAuthorizedException("You are not authorized for this action");
+        }
+
+        User user = userRepository.findById(username).orElseThrow(() -> new RecordNotFoundException("User not found"));
+        if (newUser.getPassword() != null) {
+            user.setPassword(newUser.getPassword());
+        }
+        if (newUser.getUsername() != null) {
+            user.setUsername(newUser.getUsername());
+        }
+        if (newUser.getEmail() != null) {
+            user.setEmail(newUser.getEmail());
+        }
         userRepository.save(user);
     }
 

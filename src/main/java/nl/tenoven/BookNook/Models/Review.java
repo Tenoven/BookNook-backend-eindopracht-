@@ -16,14 +16,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "reviewer")
-    private String reviewer;
+    @ManyToOne
+    private User user;
     private String reviewTitle;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Book book;
     private String Text;
     private Byte Score;
